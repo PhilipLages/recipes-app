@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 
 export default function Header({ title }) {
+  const [searchField, setSearchField] = useState(false);
+
   const searchIconImg = (title === 'Profile'
     || title === 'Favorite Recipes' || title === 'Done Recipes');
   return (
@@ -19,9 +21,14 @@ export default function Header({ title }) {
       </Link>
       {
         !searchIconImg && (
-          <button type="button">
+          <button type="button" onClick={ () => setSearchField(!searchField) }>
             <img src={ searchIcon } data-testid="search-top-btn" alt="search-profile" />
           </button>
+        )
+      }
+      {
+        searchField && (
+          <input type="text" data-testid="search-input" />
         )
       }
     </div>

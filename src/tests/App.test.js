@@ -5,10 +5,13 @@ import App from '../App';
 import renderWithRouter from './RenderWithRouter';
 
 describe('Desenvolva testes para atingir cobertura total do APP', () => {
+  const EMAIL_INPUT = 'email-input';
+  const PASSWORD_INPUT = 'password-input';
+
   test('Verifica se o input E-mail é renderizado', () => {
     renderWithRouter(<App />);
 
-    const emailRender = screen.getByTestId('email-input');
+    const emailRender = screen.getByTestId(EMAIL_INPUT);
 
     expect(emailRender).toBeInTheDocument();
   });
@@ -16,7 +19,7 @@ describe('Desenvolva testes para atingir cobertura total do APP', () => {
   test('Verifica se o input Password é renderizado', () => {
     renderWithRouter(<App />);
 
-    const passwordRender = screen.getByTestId('password-input');
+    const passwordRender = screen.getByTestId(PASSWORD_INPUT);
 
     expect(passwordRender).toBeInTheDocument();
   });
@@ -38,8 +41,8 @@ describe('Desenvolva testes para atingir cobertura total do APP', () => {
     renderWithRouter(<App />);
 
     const buttonHab = screen.getByRole('button', { name: /enter/i });
-    const emailLabel = screen.getByTestId('email-input');
-    const passwordLabel = screen.getByTestId('password-input');
+    const emailLabel = screen.getByTestId(EMAIL_INPUT);
+    const passwordLabel = screen.getByTestId(PASSWORD_INPUT);
     const emailtest = 'test@test.com';
     const senhatest = '0987654';
 
@@ -48,5 +51,18 @@ describe('Desenvolva testes para atingir cobertura total do APP', () => {
 
     expect(buttonHab).toBeEnabled();
   });
-});
 
+  test('Verifica se é redirecionado para a página "Meals" após efetuar login', () => {
+    const { history } = renderWithRouter(<App />);
+
+    const button = screen.getByRole('button', { name: /enter/i });
+    const email = screen.getByTestId(EMAIL_INPUT);
+    const password = screen.getByTestId(PASSWORD_INPUT);
+
+    userEvent.type(email, 'test@test.com');
+    userEvent.type(password, '0987655');
+    userEvent.click(button);
+
+    expect(history.location.pathname).toBe('/meals');
+  });
+});

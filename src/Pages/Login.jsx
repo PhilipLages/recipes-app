@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import PropTypes, { func } from 'prop-types';
+import RecipesContext from '../Context';
 
-export default function Login() {
+export default function Login({ history: { push } }) {
   const [login, setLogin] = useState({ email: '', password: '' });
+  const { setEmail } = useContext(RecipesContext);
 
   const handleChange = (({ target: { name, value } }) => {
     setLogin((prevLogin) => ({
@@ -24,9 +27,14 @@ export default function Login() {
 
   const isValid = checkEmail() && checkPassword();
 
+  const handleSubmit = () => {
+    setEmail({ email: login.email });
+    push('/meals');
+  };
+
   return (
     <div>
-      <form>
+      <form onSubmit={ handleSubmit }>
         <input
           type="email"
           name="email"
@@ -56,3 +64,9 @@ export default function Login() {
     </div>
   );
 }
+
+Login.propTypes = {
+  history: PropTypes.shape({
+    push: func,
+  }),
+}.isRequired;

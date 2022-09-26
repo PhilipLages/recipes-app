@@ -1,8 +1,12 @@
 import React from 'react';
+import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 
 export default function Drinks() {
   return (
-    <Header title="Drinks" />
+    <div>
+      <Header title="Drinks" />
+      <Footer />
+    </div>
   );
 }

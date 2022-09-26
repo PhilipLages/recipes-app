@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router';
 import RecipesContext from '.';
 import useStorage from '../Hooks';
-import requestAPI from '../Services';
+import requestAPI, { getDrinks, getMeals } from '../Services';
 
 export default function RecipesProvider({ children }) {
   const [search, setSearch] = useState({ searchText: '', radioInputs: '' });
@@ -11,7 +12,7 @@ export default function RecipesProvider({ children }) {
   const [mealsToken, setMealsToken] = useStorage('mealsToken', 1);
   const [drinksToken, setDrinksToken] = useStorage('drinksToken', 1);
 
-  console.log(recipes);
+  const history = useHistory();
 
   const handleChange = (({ target: { name, value } }) => {
     setSearch((prevSearch) => ({
@@ -21,8 +22,14 @@ export default function RecipesProvider({ children }) {
   });
 
   const handleSubmit = async () => {
-    const data = await requestAPI(search.searchText, search.radioInputs);
-    console.log('api', data);
+    console.log(history.location.pathname);
+    let api;
+    if (history.location.pathname === '/meals') {
+      api = getMeals;
+    } else if (history.location.pathname === '/drinks') {
+      api = getDrinks;
+    }
+    const data = await requestAPI(api, search.searchText, search.radioInputs);
     setRecipes(data);
   };
 
@@ -47,5 +54,5 @@ export default function RecipesProvider({ children }) {
 }
 
 RecipesProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+  children: PropTypes.node,
+}.isRequired;

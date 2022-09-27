@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
-
 import RecipesContext from '.';
 import useStorage from '../Hooks';
+import { fetchDrinks, fetchMeals } from '../Services';
 
 export default function RecipesProvider({ children }) {
   const [search, setSearch] = useState({ searchText: '', radioInputs: '' });
@@ -24,23 +24,15 @@ export default function RecipesProvider({ children }) {
   });
 
   useEffect(() => {
-    const fetchApi = async () => {
-      const response = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
-      const result = await response.json();
-      setMeals(result);
-      setLoading(false);
-    };
-    fetchApi();
-  }, []);
+    const getData = async () => {
+      const mealsData = await fetchMeals();
+      const drinksData = await fetchDrinks();
 
-  useEffect(() => {
-    const fetchApi = async () => {
-      const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
-      const result = await response.json();
-      setDrinks(result);
+      setMeals(mealsData);
+      setDrinks(drinksData);
       setLoading(false);
     };
-    fetchApi();
+    getData();
   }, []);
 
   const context = {

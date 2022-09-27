@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import RecipesContext from '../Context';
-import requestAPI, { getDrinks, getMeals } from '../Services';
+import requestAPIBySearch, { getDrinks, getMeals } from '../Services';
 
 function SearchBar() {
   const { handleChange, history } = useContext(RecipesContext);
@@ -13,9 +13,10 @@ function SearchBar() {
     } else if (history.location.pathname === '/drinks') {
       api = getDrinks;
     }
-    const data = await requestAPI(api, search.searchText, search.radioInputs);
+    const data = await requestAPIBySearch(api, search.searchText, search.radioInputs);
     setRecipes(data);
   };
+
   return (
     <section>
       <label htmlFor="ingredient">

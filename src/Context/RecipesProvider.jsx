@@ -45,16 +45,15 @@ export default function RecipesProvider({ children }) {
     getData();
   }, []);
 
-  // filter
-  const filterByCategory = async (value) => {
+  const filterByCategory = async ({ target }) => {
     if (history.location.pathname === '/meals') {
-      const { meals: mealsData } = await fetchMealsByCategory(value);
+      const { meals: mealsData } = await fetchMealsByCategory(target.value);
       setMeals(mealsData);
-      console.log(await fetchMealsByCategory(value));
+      console.log(await fetchMealsByCategory(target.value));
     } else if (history.location.pathname === '/drinks') {
-      const { drinks: drinksData } = await fetchDrinksByCategory(value);
+      const { drinks: drinksData } = await fetchDrinksByCategory(target.value);
       setDrinks(drinksData);
-      console.log(await fetchDrinksByCategory(value));
+      console.log(await fetchDrinksByCategory(target.value));
     }
   };
 

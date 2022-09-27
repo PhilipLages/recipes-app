@@ -5,8 +5,10 @@ import RecipesContext from '.';
 import useStorage from '../Hooks';
 import {
   fetchDrinks,
+  fetchDrinksByCategory,
   fetchDrinksCategories,
   fetchMeals,
+  fetchMealsByCategory,
   fetchMealsCategories,
 } from '../Services';
 
@@ -43,8 +45,34 @@ export default function RecipesProvider({ children }) {
     getData();
   }, []);
 
+  const filterByCategory = async (value) => {
+    if (history.location.pathname === '/meals') {
+      const { meals: mealsData } = await fetchMealsByCategory(value);
+      setMeals(mealsData);
+      console.log(await fetchMealsByCategory(value));
+    } else if (history.location.pathname === '/drinks') {
+      const { drinks: drinksData } = await fetchDrinksByCategory(value);
+      setDrinks(drinksData);
+      console.log(await fetchDrinksByCategory(value));
+    }
+  };
+
+  const allCategories = async () => {
+    if (history.location.pathname === '/meals') {
+      const { meals: mealsData } = await fetchMeals();
+      setMeals(mealsData);
+      console.log(await fetchMeals());
+    } else if (history.location.pathname === '/drinks') {
+      const { drinks: drinksData } = await fetchDrinks();
+      setDrinks(drinksData);
+      console.log(await fetchMeals(drinksData));
+    }
+  };
+
   const context = {
     search,
+    filterByCategory,
+    allCategories,
     handleChange,
     setMeals,
     setDrinks,

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import RecipesContext from '../Context';
+import '../styles/recipeCard.css';
 
 export default function Recipes() {
   const { loading, drinks, history, meals } = useContext(RecipesContext);
@@ -17,6 +18,7 @@ export default function Recipes() {
                     to={ `/meals/${rec.idMeal}` }
                     key={ rec.idMeal }
                     data-testid={ `${index}-recipe-card` }
+                    className="recipe-card"
                   >
                     <img
                       data-testid={ `${index}-card-img` }
@@ -40,6 +42,7 @@ export default function Recipes() {
                   to={ `/drinks/${rec.idDrink}` }
                   key={ rec.idDrink }
                   data-testid={ `${index}-recipe-card` }
+                  className="recipe-card"
                 >
                   <img
                     data-testid={ `${index}-card-img` }

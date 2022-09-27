@@ -5,14 +5,16 @@ import RecipesContext from '../Context';
 export default function Category({ category }) {
   const { filterByCategory } = useContext(RecipesContext);
   return (
-    <button
-      type="button"
-      data-testid={ `${category}-category-filter` }
-      value={ category }
-      onClick={ ({ target }) => filterByCategory(target.value) }
-    >
+    <label htmlFor={ category }>
+      <input
+        type="checkbox"
+        id={ category }
+        data-testid={ `${category}-category-filter` }
+        value={ category }
+        onClick={ filterByCategory }
+      />
       {category}
-    </button>
+    </label>
   );
 }
 

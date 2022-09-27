@@ -45,6 +45,7 @@ export default function RecipesProvider({ children }) {
     getData();
   }, []);
 
+  // filter
   const filterByCategory = async (value) => {
     if (history.location.pathname === '/meals') {
       const { meals: mealsData } = await fetchMealsByCategory(value);

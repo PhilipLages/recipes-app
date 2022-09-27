@@ -8,10 +8,9 @@ export default function Recipes() {
 
   return (
     <section>
-      { !loading && (
-        <div>
-          { history.location.pathname === '/meals'
-            ? (
+      <div>
+        {!loading && history.location.pathname === '/meals'
+            && (
               <div>
                 { meals.meals.slice(0, DOZE).map((rec, index) => (
                   <Link
@@ -19,7 +18,6 @@ export default function Recipes() {
                     key={ rec.idMeal }
                     data-testid={ `${index}-recipe-card` }
                   >
-                    { rec.idMeal }
                     <img
                       data-testid={ `${index}-card-img` }
                       src={ rec.strMealThumb }
@@ -29,37 +27,35 @@ export default function Recipes() {
                       data-testid={ `${index}-card-name` }
                     >
                       { rec.strMeal }
-
-                    </h3>
-                  </Link>
-                ))}
-              </div>
-            ) : (
-              <div>
-                { drinks.drinks.slice(0, DOZE).map((rec, index) => (
-                  <Link
-                    to={ `/meals/${rec.idDrinks}` }
-                    key={ rec.idDrinks }
-                    data-testid={ `${index}-recipe-card` }
-                  >
-                    { rec.idMeal }
-                    <img
-                      data-testid={ `${index}-card-img` }
-                      src={ rec.strDrinkThumb }
-                      alt={ rec.strDrink }
-                    />
-                    <h3
-                      data-testid={ `${index}-card-name` }
-                    >
-                      { rec.strDrink }
-
                     </h3>
                   </Link>
                 ))}
               </div>
             )}
-        </div>
-      )}
+        {!loading && history.location.pathname === '/drinks'
+          && (
+            <div>
+              { drinks.drinks.slice(0, DOZE).map((rec, index) => (
+                <Link
+                  to={ `/drinks/${rec.idDrink}` }
+                  key={ rec.idDrink }
+                  data-testid={ `${index}-recipe-card` }
+                >
+                  <img
+                    data-testid={ `${index}-card-img` }
+                    src={ rec.strDrinkThumb }
+                    alt={ rec.strDrink }
+                  />
+                  <h3
+                    data-testid={ `${index}-card-name` }
+                  >
+                    { rec.strDrink }
+                  </h3>
+                </Link>
+              ))}
+            </div>
+          )}
+      </div>
     </section>
   );
 }

@@ -32,11 +32,23 @@ export const getDrinks = (input, radio) => {
   }
 };
 
-const requestAPI = async (api, input, radio) => {
+const requestAPIBySearch = async (api, input, radio) => {
   const URL = api(input, radio);
   const response = await fetch(URL);
   const data = await response.json();
   return data;
 };
 
-export default requestAPI;
+export default requestAPIBySearch;
+
+export const fetchMeals = async () => {
+  const response = await fetch('https://www.themealdb.com/api/json/v1/1/search.php?s=');
+  const data = await response.json();
+  return data;
+};
+
+export const fetchDrinks = async () => {
+  const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+  const data = await response.json();
+  return data;
+};

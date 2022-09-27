@@ -3,17 +3,23 @@ import PropTypes from 'prop-types';
 import { useHistory } from 'react-router';
 import RecipesContext from '.';
 import useStorage from '../Hooks';
-import { fetchDrinks, fetchMeals } from '../Services';
+import {
+  fetchDrinks,
+  fetchDrinksCategories,
+  fetchMeals,
+  fetchMealsCategories,
+} from '../Services';
 
 export default function RecipesProvider({ children }) {
   const [search, setSearch] = useState({ searchText: '', radioInputs: '' });
   const [email, setEmail] = useStorage('user', { email: '' });
-  const [meals, setMeals] = useState({});
-  const [drinks, setDrinks] = useState({});
+  const [meals, setMeals] = useState([]);
+  const [drinks, setDrinks] = useState([]);
+  const [mealsCategories, setMealsCategories] = useState([]);
+  const [drinksCategories, setDrinksCategories] = useState([]);
+
   const [mealsToken, setMealsToken] = useStorage('mealsToken', 1);
   const [drinksToken, setDrinksToken] = useStorage('drinksToken', 1);
-  const [loading, setLoading] = useState(true);
-
   const history = useHistory();
 
   const handleChange = (({ target: { name, value } }) => {
@@ -25,12 +31,14 @@ export default function RecipesProvider({ children }) {
 
   useEffect(() => {
     const getData = async () => {
-      const mealsData = await fetchMeals();
-      const drinksData = await fetchDrinks();
-
-      setMeals(mealsData);
-      setDrinks(drinksData);
-      setLoading(false);
+      const { meals: mealsData } = await fetchMeals();
+      const { drinks: drinksData } = await fetchDrinks();
+      const { meals: mealsCat } = await fetchMealsCategories();
+      const { drinks: drinksCat } = await fetchDrinksCategories();
+      setMeals([...mealsData]);
+      setDrinks([...drinksData]);
+      setMealsCategories([...mealsCat]);
+      setDrinksCategories([...drinksCat]);
     };
     getData();
   }, []);
@@ -46,10 +54,11 @@ export default function RecipesProvider({ children }) {
     setMealsToken,
     drinksToken,
     setDrinksToken,
-    loading,
     drinks,
     meals,
     history,
+    mealsCategories,
+    drinksCategories,
   };
 
   return (

@@ -68,11 +68,11 @@ export const fetchDrinksCategories = async () => {
   return data;
 };
 
-const requestAPIBySearch = async (api, input, radio) => {
+const searchAPI = async (api, input, radio) => {
   const URL = api(input, radio);
   const response = await fetch(URL);
   const data = await response.json();
   return data;
 };
 
-export default requestAPIBySearch;
+export default searchAPI;

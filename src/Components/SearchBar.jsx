@@ -16,20 +16,21 @@ function SearchBar() {
     if (history.location.pathname === '/meals') {
       api = getMeals;
 
-      const data = await requestAPIBySearch(api, searchText, radioInputs);
-      console.log(data);
+      const { meals: data } = await requestAPIBySearch(api, searchText, radioInputs);
 
-      if (data.meals.length === 1) {
-        history.push(`/meals/${data.meals[0].idMeal}`);
+      if (data.length === 1) {
+        history.push(`/meals/${data[0].idMeal}`);
       }
       setMeals(data);
     } else if (history.location.pathname === '/drinks') {
       api = getDrinks;
 
-      const data = await requestAPIBySearch(api, searchText, radioInputs);
+      const { drinks: data } = await requestAPIBySearch(api, searchText, radioInputs);
 
       setDrinks(data);
-      if (data.drinks.length === 1) history.push(`/drinks/${data.drinks[0].idDrink}`);
+      if (data.length === 1) {
+        history.push(`/drinks/${data[0].idDrink}`);
+      }
     }
   };
 

@@ -46,14 +46,23 @@ export default function RecipesProvider({ children }) {
   }, []);
 
   const filterByCategory = async ({ target }) => {
-    if (history.location.pathname === '/meals') {
-      const { meals: mealsData } = await fetchMealsByCategory(target.value);
-      setMeals(mealsData);
-      console.log(await fetchMealsByCategory(target.value));
-    } else if (history.location.pathname === '/drinks') {
-      const { drinks: drinksData } = await fetchDrinksByCategory(target.value);
-      setDrinks(drinksData);
-      console.log(await fetchDrinksByCategory(target.value));
+    console.log(target.checked);
+    if (!target.checked) {
+      if (history.location.pathname === '/meals') {
+        const { meals: mealsData } = await fetchMeals();
+        setMeals(mealsData);
+      } else if (history.location.pathname === '/drinks') {
+        const { drinks: drinksData } = await fetchDrinks();
+        setDrinks(drinksData);
+      }
+    } else if (target.checked) {
+      if (history.location.pathname === '/meals') {
+        const { meals: mealsData } = await fetchMealsByCategory(target.value);
+        setMeals(mealsData);
+      } else if (history.location.pathname === '/drinks') {
+        const { drinks: drinksData } = await fetchDrinksByCategory(target.value);
+        setDrinks(drinksData);
+      }
     }
   };
 

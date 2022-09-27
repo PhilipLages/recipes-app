@@ -2,27 +2,37 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './RenderWithRouter';
-import Meals from '../Pages/Meals';
+import App from '../App';
+// import drinks from './mocks/drinks';
+// import meals from './mocks/meals';
 
 describe('Desenvolva testes para atingir cobertura total do Header', () => {
-  it('Verifica se a página renderiza os elementos', () => {
-    renderWithRouter(<Meals />);
+  // beforeEach(() => {
+  //   global.fetch = jest.fn().mockResolvedValue({
+  //     json: () => Promise.resolve(meals),
+  //   });
+  // });
+  it('Verifica se ao clicar no Botão "Profile" é renderizada a rota /profile', () => {
+    const { history } = renderWithRouter(<App />, '/meals');
+
+    const btnProfile = screen.getByTestId('profile-top-btn');
+    expect(btnProfile).toBeInTheDocument();
+
+    userEvent.click(btnProfile);
+    expect(history.location.pathname).toEqual('/profile');
+  });
+  it('Verifica se a página renderiza o Titulo', () => {
+    renderWithRouter(<App />, '/meals');
 
     const title = screen.getByTestId('page-title');
     expect(title).toBeInTheDocument();
-
-    const imgIcon = screen.getByTestId('profile-top-btn');
-    expect(imgIcon).toBeInTheDocument();
-
-    const serachIcon = screen.getByTestId('search-top-btn');
-    expect(serachIcon).toBeInTheDocument();
   });
-  it('Verifica se ao clicar na imagem, muda a página', () => {
-    renderWithRouter(<Meals />);
+  it.only('Verifica se ao clicar no botão de search abre o menu de busca', () => {
+    renderWithRouter(<App />, '/meals');
 
-    const bttnIcon = screen.getByTestId('search-top-btn');
-    userEvent.click(bttnIcon);
-    const searchField = screen.getByTestId('search-input');
-    expect(searchField).toBeInTheDocument();
+    const btnSearch = screen.getByTestId('search-top-btn');
+    expect(btnSearch).toBeInTheDocument();
+    userEvent.click(btnSearch);
+    expect(screen.getByTestId('search-input')).toBeInTheDocument();
   });
 });

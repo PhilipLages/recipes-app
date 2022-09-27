@@ -38,6 +38,8 @@ export default function RecipesProvider({ children }) {
   const context = {
     search,
     handleChange,
+    setMeals,
+    setDrinks,
     email,
     setEmail,
     mealsToken,

@@ -3,22 +3,45 @@ import RecipesContext from '../Context';
 import requestAPIBySearch, { getDrinks, getMeals } from '../Services';
 
 function SearchBar() {
-  const { handleChange, history } = useContext(RecipesContext);
+  const {
+    setMeals,
+    setDrinks,
+    handleChange,
+    history,
+    search: { searchText, radioInputs },
+  } = useContext(RecipesContext);
 
   const handleSubmit = async () => {
-    console.log(history.location.pathname);
     let api;
     if (history.location.pathname === '/meals') {
       api = getMeals;
+
+      const data = await requestAPIBySearch(api, searchText, radioInputs);
+      console.log(data);
+
+      if (data.meals.length === 1) {
+        history.push(`/meals/${data.meals[0].idMeal}`);
+      }
+      setMeals(data);
     } else if (history.location.pathname === '/drinks') {
       api = getDrinks;
+
+      const data = await requestAPIBySearch(api, searchText, radioInputs);
+
+      setDrinks(data);
+      if (data.drinks.length === 1) history.push(`/drinks/${data.drinks[0].idDrink}`);
     }
-    const data = await requestAPIBySearch(api, search.searchText, search.radioInputs);
-    setRecipes(data);
   };
 
   return (
     <section>
+      <input
+        type="text"
+        name="searchText"
+        value={ searchText }
+        onChange={ handleChange }
+        data-testid="search-input"
+      />
       <label htmlFor="ingredient">
         Ingredient
         <input

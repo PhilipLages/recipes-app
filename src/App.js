@@ -9,7 +9,7 @@ import Drinks from './Pages/Drinks';
 import DoneRecipes from './Pages/DoneRecipes';
 import FavoriteRecipes from './Pages/FavoriteRecipes';
 import Profile from './Pages/Profile';
-import RecipeDetails from './Components/RecipeDetails';
+import RecipeDetails from './Pages/RecipeDetails';
 
 function App() {
   return (

@@ -3,12 +3,12 @@ import RecipesContext from '../Context';
 import Category from './Category';
 
 export default function Categories() {
-  const { history, mealsCategories,
+  const { history: { location: { pathname } }, mealsCategories,
     drinksCategories, allCategories } = useContext(RecipesContext);
   const FIVE = 5;
   return (
     <section>
-      {history.location.pathname === '/drinks'
+      {pathname.includes('drinks')
       && (
         <div>
           {drinksCategories.slice(0, FIVE).map(({ strCategory }) => (
@@ -28,7 +28,8 @@ export default function Categories() {
           </button>
         </div>
       )}
-      {history.location.pathname === '/meals'
+      { pathname.includes('meals')
+
       && (
         <div>
           {mealsCategories.slice(0, FIVE).map(({ strCategory }) => (

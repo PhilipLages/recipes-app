@@ -10,7 +10,6 @@ export default function Meals() {
       <main>
         <Recipes />
       </main>
-
       <Footer />
     </div>
   );

@@ -5,14 +5,21 @@ import '../styles/recipeCard.css';
 import Categories from './Categories';
 
 export default function Recipes() {
-  const { drinks, history, meals } = useContext(RecipesContext);
+  const {
+    drinks,
+    history: {
+      location: {
+        pathname,
+      } },
+    meals,
+  } = useContext(RecipesContext);
   const DOZE = 12;
 
   return (
     <section>
       <Categories />
       <div>
-        {history.location.pathname === '/meals'
+        {pathname.includes('meals')
             && (
               <div>
                 { meals?.slice(0, DOZE).map((rec, index) => (
@@ -36,7 +43,7 @@ export default function Recipes() {
                 ))}
               </div>
             )}
-        {history.location.pathname === '/drinks'
+        {pathname.includes('drinks')
           && (
             <div>
               { drinks?.slice(0, DOZE).map((rec, index) => (

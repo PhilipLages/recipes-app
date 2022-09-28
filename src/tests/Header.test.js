@@ -3,8 +3,6 @@ import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './RenderWithRouter';
 import App from '../App';
-// import drinks from './mocks/drinks';
-// import meals from './mocks/meals';
 
 describe('Desenvolva testes para atingir cobertura total do Header', () => {
   // beforeEach(() => {

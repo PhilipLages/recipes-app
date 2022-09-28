@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes, { object, string } from 'prop-types';
 import '../styles/recipeDetailsCard.css';
+import RecommendedRecipes from './RecommendedRecipes';
 
 function RecipeDetailsCard(props) {
   const [btn, setBtn] = useState(true);
@@ -62,6 +63,7 @@ function RecipeDetailsCard(props) {
       >
         Start Recipe
       </button>
+      <RecommendedRecipes />
     </section>
   );
 }

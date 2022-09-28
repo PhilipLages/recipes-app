@@ -24,12 +24,15 @@ export default function RecipeDetails({ match: { params: { id } } }) {
 
   useEffect(() => {
     const getData = async () => {
-      const mealData = await getApiEAT();
-      const drinkData = await getApiDrink();
-
-      setFood(mealData);
-      setDrink(drinkData);
-      setLoading(false);
+      if (pathname.includes('meals')) {
+        const mealData = await getApiEAT();
+        setFood(mealData);
+        setLoading(false);
+      } if (pathname.includes('drinks')) {
+        const drinkData = await getApiDrink();
+        setDrink(drinkData);
+        setLoading(false);
+      }
     };
     getData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -38,15 +41,46 @@ export default function RecipeDetails({ match: { params: { id } } }) {
   const getIngredients = () => {
     if (pathname.includes('meals')) {
       const ingredients = Object.entries(food[0])
-        .filter((item) => item[0].includes('Ingredient'));
-      const filtered = ingredients.filter((ingredient) => ingredient[1] !== '');
-      return filtered;
+        .filter((item) => item[0].includes('Ingredient'))
+        .filter((ingredient) => ingredient[1] !== '');
+
+      const measures = Object.entries(food[0])
+        .filter((item) => item[0].includes('Measure'))
+        .filter((measure) => measure[1] !== ' ');
+
+      const ingredientsAndMeasures = [];
+
+      ingredients.forEach((ingredient, idx) => {
+        ingredientsAndMeasures.push([...ingredient, measures[idx][1]]);
+      });
+
+      return ingredientsAndMeasures;
     }
     if (pathname.includes('drinks')) {
       const ingredients = Object.entries(drink[0])
-        .filter((item) => item[0].includes('Ingredient'));
-      const filtered = ingredients.filter((ingredient) => ingredient[1] !== null);
-      return filtered;
+        .filter((item) => item[0].includes('Ingredient'))
+        .filter((ingredient) => ingredient[1] !== null);
+
+      const measures = Object.entries(drink[0])
+        .filter((item) => item[0].includes('Measure'))
+        .filter((measure) => measure[1] !== null);
+
+      const ingredientsAndMeasures = [];
+      const firstIngredient = [
+        [...ingredients[0], measures[0][1]],
+        [...ingredients[1], ''],
+        [...ingredients[2], ''],
+      ];
+
+      if (measures.length === 1) {
+        ingredientsAndMeasures.push(...firstIngredient);
+      } else {
+        ingredients.forEach((ingredient, idx) => {
+          ingredientsAndMeasures.push([...ingredient, measures[idx][1]]);
+        });
+      }
+
+      return ingredientsAndMeasures;
     }
   };
 
@@ -76,6 +110,7 @@ export default function RecipeDetails({ match: { params: { id } } }) {
               name="strDrink"
               category="strCategory"
               instructions="strInstructions"
+              alcoholic="strAlcoholic"
             />
           )}
         </section>

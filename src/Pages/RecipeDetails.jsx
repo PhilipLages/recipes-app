@@ -15,14 +15,12 @@ export default function RecipeDetails({ match: { params: { id } } }) {
     const { meals } = await response.json();
     return meals;
   };
-  getApiEAT();
 
   const getApiDrink = async () => {
     const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
     const { drinks } = await response.json();
     return drinks;
   };
-  getApiDrink();
 
   useEffect(() => {
     const getData = async () => {

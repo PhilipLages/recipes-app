@@ -29,7 +29,7 @@ export default function Login({ history: { push } }) {
 
   const handleSubmit = () => {
     setEmail({ email: login.email });
-    push('/profile');
+    push('/meals');
   };
 
   return (

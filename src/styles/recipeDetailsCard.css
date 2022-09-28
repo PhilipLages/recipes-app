@@ -1,3 +1,9 @@
 .recipe-details-card img {
   width: 300px;
 }
+
+.start-recipe-btn {
+  bottom: 0px;
+  position: fixed;
+  background-color: blueviolet;
+}

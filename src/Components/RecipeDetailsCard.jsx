@@ -67,6 +67,18 @@ function RecipeDetailsCard(props) {
       >
         Start Recipe
       </button>
+      <button
+        type="button"
+        data-testid="share-btn"
+      >
+        Share
+      </button>
+      <button
+        type="button"
+        data-testid="favorite-btn"
+      >
+        Favorite
+      </button>
       <RecommendedRecipes />
     </section>
   );

@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import RecipesContext from '../Context';
-import recipesSearch, { checkData } from '../helpers';
+import checkData from '../helpers';
+import { searchDrinksAPI, searchMealsAPI } from '../Services';
 
 function SearchBar() {
   const {
@@ -13,12 +14,15 @@ function SearchBar() {
 
   const handleSubmit = async () => {
     const { location: { pathname }, push } = history;
-
-    const data = await recipesSearch(pathname, searchText, radioInputs);
-
     const rest = [pathname, setMeals, setDrinks];
 
-    checkData(data, push, ...rest);
+    if (pathname.includes('meals')) {
+      const { meals: data } = await searchMealsAPI(searchText, radioInputs);
+      checkData(data, push, ...rest);
+    } if (pathname.includes('drinks')) {
+      const { drinks: data } = await searchDrinksAPI(searchText, radioInputs);
+      checkData(data, push, ...rest);
+    }
   };
 
   return (

@@ -24,12 +24,15 @@ export default function RecipeDetails({ match: { params: { id } } }) {
 
   useEffect(() => {
     const getData = async () => {
-      const mealData = await getApiEAT();
-      const drinkData = await getApiDrink();
-
-      setFood(mealData);
-      setDrink(drinkData);
-      setLoading(false);
+      if (pathname.includes('meals')) {
+        const mealData = await getApiEAT();
+        setFood(mealData);
+        setLoading(false);
+      } if (pathname.includes('drinks')) {
+        const drinkData = await getApiDrink();
+        setDrink(drinkData);
+        setLoading(false);
+      }
     };
     getData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -107,6 +110,7 @@ export default function RecipeDetails({ match: { params: { id } } }) {
               name="strDrink"
               category="strCategory"
               instructions="strInstructions"
+              alcoholic="strAlcoholic"
             />
           )}
         </section>

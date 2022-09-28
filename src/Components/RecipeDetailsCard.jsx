@@ -13,6 +13,7 @@ function RecipeDetailsCard(props) {
     category,
     instructions,
     video,
+    alcoholic,
   } = props;
 
   return (
@@ -23,10 +24,14 @@ function RecipeDetailsCard(props) {
         data-testid="recipe-photo"
       />
       <h2 data-testid="recipe-title">{recipe[name]}</h2>
-      <p data-testid="recipe-category">{recipe[category]}</p>
+      <p data-testid="recipe-category">
+        {pathname.includes('drinks')
+          ? `${recipe[category]} ${recipe[alcoholic]}`
+          : recipe[category]}
+      </p>
       <h3>Ingredients</h3>
       <ul>
-        {func().map((ingredient, index) => (
+        {func(pathname, recipe).map((ingredient, index) => (
           <li
             key={ ingredient[0] }
             data-testid={ `${index}-ingredient-name-and-measure` }
@@ -38,7 +43,7 @@ function RecipeDetailsCard(props) {
       <h3>Instructions</h3>
       <p data-testid="instructions">{recipe[instructions]}</p>
       {pathname.includes('meals') && (
-        <div>
+        <div data-testid="video">
           <iframe
             width="300"
             height="250"

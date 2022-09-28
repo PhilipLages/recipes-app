@@ -68,11 +68,16 @@ export const fetchDrinksCategories = async () => {
   return data;
 };
 
-const searchAPI = async (api, input, radio) => {
-  const URL = api(input, radio);
+export const searchMealsAPI = async (input, radio) => {
+  const URL = getMeals(input, radio);
   const response = await fetch(URL);
   const data = await response.json();
   return data;
 };
 
-export default searchAPI;
+export const searchDrinksAPI = async (input, radio) => {
+  const URL = getDrinks(input, radio);
+  const response = await fetch(URL);
+  const data = await response.json();
+  return data;
+};

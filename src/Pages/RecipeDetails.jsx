@@ -42,11 +42,13 @@ export default function RecipeDetails({ match: { params: { id } } }) {
     if (pathname.includes('meals')) {
       const ingredients = Object.entries(food[0])
         .filter((item) => item[0].includes('Ingredient'))
+        .filter((ingredient) => ingredient[1] !== null)
         .filter((ingredient) => ingredient[1] !== '');
 
       const measures = Object.entries(food[0])
         .filter((item) => item[0].includes('Measure'))
-        .filter((measure) => measure[1] !== ' ');
+        .filter((measure) => measure[1] !== null)
+        .filter((measure) => measure[1] !== '');
 
       const ingredientsAndMeasures = [];
 
@@ -59,11 +61,13 @@ export default function RecipeDetails({ match: { params: { id } } }) {
     if (pathname.includes('drinks')) {
       const ingredients = Object.entries(drink[0])
         .filter((item) => item[0].includes('Ingredient'))
-        .filter((ingredient) => ingredient[1] !== null);
+        .filter((ingredient) => ingredient[1] !== null)
+        .filter((ingredient) => ingredient[1] !== '');
 
       const measures = Object.entries(drink[0])
         .filter((item) => item[0].includes('Measure'))
-        .filter((measure) => measure[1] !== null);
+        .filter((measure) => measure[1] !== null)
+        .filter((measure) => measure[1] !== '');
 
       const ingredientsAndMeasures = [];
       const firstIngredient = [

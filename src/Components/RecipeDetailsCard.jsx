@@ -31,7 +31,7 @@ function RecipeDetailsCard(props) {
             key={ ingredient[0] }
             data-testid={ `${index}-ingredient-name-and-measure` }
           >
-            {ingredient[1]}
+            {`${ingredient[1]} - ${ingredient[2]}`}
           </li>
         ))}
       </ul>

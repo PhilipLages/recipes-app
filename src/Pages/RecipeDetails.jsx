@@ -38,15 +38,46 @@ export default function RecipeDetails({ match: { params: { id } } }) {
   const getIngredients = () => {
     if (pathname.includes('meals')) {
       const ingredients = Object.entries(food[0])
-        .filter((item) => item[0].includes('Ingredient'));
-      const filtered = ingredients.filter((ingredient) => ingredient[1] !== '');
-      return filtered;
+        .filter((item) => item[0].includes('Ingredient'))
+        .filter((ingredient) => ingredient[1] !== '');
+
+      const measures = Object.entries(food[0])
+        .filter((item) => item[0].includes('Measure'))
+        .filter((measure) => measure[1] !== ' ');
+
+      const ingredientsAndMeasures = [];
+
+      ingredients.forEach((ingredient, idx) => {
+        ingredientsAndMeasures.push([...ingredient, measures[idx][1]]);
+      });
+
+      return ingredientsAndMeasures;
     }
     if (pathname.includes('drinks')) {
       const ingredients = Object.entries(drink[0])
-        .filter((item) => item[0].includes('Ingredient'));
-      const filtered = ingredients.filter((ingredient) => ingredient[1] !== null);
-      return filtered;
+        .filter((item) => item[0].includes('Ingredient'))
+        .filter((ingredient) => ingredient[1] !== null);
+
+      const measures = Object.entries(drink[0])
+        .filter((item) => item[0].includes('Measure'))
+        .filter((measure) => measure[1] !== null);
+
+      const ingredientsAndMeasures = [];
+      const firstIngredient = [
+        [...ingredients[0], measures[0][1]],
+        [...ingredients[1], ''],
+        [...ingredients[2], ''],
+      ];
+
+      if (measures.length === 1) {
+        ingredientsAndMeasures.push(...firstIngredient);
+      } else {
+        ingredients.forEach((ingredient, idx) => {
+          ingredientsAndMeasures.push([...ingredient, measures[idx][1]]);
+        });
+      }
+
+      return ingredientsAndMeasures;
     }
   };
 

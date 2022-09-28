@@ -19,48 +19,54 @@ export default function RecommendedRecipes() {
       <div>
         {pathname.includes('drinks')
             && (
-              <div>
+              <div className="carousel">
                 { meals?.slice(0, SIX).map((rec, index) => (
                   <Link
                     to={ `/meals/${rec.idMeal}` }
                     key={ rec.idMeal }
-                    data-testid={ `${index}-recipe-card` }
-                    className="recipe-card"
+                    data-testid={ `${index}-recommendation-card` }
+                    className="recipe-card-recommended"
                   >
-                    <img
-                      data-testid={ `${index}-card-img` }
-                      src={ rec.strMealThumb }
-                      alt={ rec.strMeal }
-                    />
-                    <h3
-                      data-testid={ `${index}-card-name` }
-                    >
-                      { rec.strMeal }
-                    </h3>
+                    <div className="recipe-image-recommended">
+                      <img
+                        src={ rec.strMealThumb }
+                        alt={ rec.strMeal }
+                      />
+                    </div>
+                    <div className="recipe-name-recommended">
+                      <h3
+                        data-testid={ `${index}-recommendation-title` }
+                      >
+                        { rec.strMeal }
+                      </h3>
+                    </div>
                   </Link>
                 ))}
               </div>
             )}
         {pathname.includes('meals')
           && (
-            <div>
+            <div className="carousel">
               { drinks?.slice(0, SIX).map((rec, index) => (
                 <Link
                   to={ `/drinks/${rec.idDrink}` }
                   key={ rec.idDrink }
-                  data-testid={ `${index}-recipe-card` }
-                  className="recipe-card"
+                  data-testid={ `${index}-recommendation-card` }
+                  className="recipe-card-recommended"
                 >
-                  <img
-                    data-testid={ `${index}-card-img` }
-                    src={ rec.strDrinkThumb }
-                    alt={ rec.strDrink }
-                  />
-                  <h3
-                    data-testid={ `${index}-card-name` }
-                  >
-                    { rec.strDrink }
-                  </h3>
+                  <div className="recipe-image-recommended">
+                    <img
+                      src={ rec.strDrinkThumb }
+                      alt={ rec.strDrink }
+                    />
+                  </div>
+                  <div className="recipe-name-recommended">
+                    <h3
+                      data-testid={ `${index}-recommendation-title` }
+                    >
+                      { rec.strDrink }
+                    </h3>
+                  </div>
                 </Link>
               ))}
             </div>

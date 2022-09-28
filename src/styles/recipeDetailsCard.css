@@ -1,3 +1,8 @@
 .recipe-details-card img {
   width: 300px;
 }
+
+.start-recipe-btn {
+  bottom: 0;
+  position: fixed;
+}

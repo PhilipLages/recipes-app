@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes, { object, string } from 'prop-types';
 import '../styles/recipeDetailsCard.css';
 
 function RecipeDetailsCard(props) {
+  const [btn, setBtn] = useState(true);
   const {
     func,
     recipe,
@@ -13,6 +14,7 @@ function RecipeDetailsCard(props) {
     instructions,
     video,
   } = props;
+
   return (
     <section className="recipe-details-card">
       <img
@@ -53,7 +55,13 @@ function RecipeDetailsCard(props) {
           />
         </div>
       )}
-
+      <button
+        type="button"
+        data-testid="start-recipe-btn"
+        onClick={ () => setBtn(!btn) }
+      >
+        Start Recipe
+      </button>
     </section>
   );
 }

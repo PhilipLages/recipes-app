@@ -38,14 +38,14 @@ export const fetchMeals = async () => {
   return data;
 };
 
-export const fetchMealsByCategory = async (value) => {
-  const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${value}`);
+export const fetchDrinks = async () => {
+  const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
   const data = await response.json();
   return data;
 };
 
-export const fetchDrinks = async () => {
-  const response = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+export const fetchMealsByCategory = async (value) => {
+  const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${value}`);
   const data = await response.json();
   return data;
 };

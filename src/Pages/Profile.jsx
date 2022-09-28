@@ -12,6 +12,14 @@ export default function Profile() {
     history.push('/done-recipes');
   };
 
+  const handleClickFavorite = () => {
+    history.push('/favorite-recipes');
+  };
+
+  const handleClickLogout = () => {
+    history.push('/');
+  };
+
   return (
     <div>
       <Header title="Profile" />
@@ -24,8 +32,22 @@ export default function Profile() {
         Done Recipes
 
       </button>
-      <button type="button" data-testid="profile-favorite-btn">Favorite Recipes</button>
-      <button type="button" data-testid="profile-logout-btn">Logout</button>
+      <button
+        type="button"
+        data-testid="profile-favorite-btn"
+        onClick={ handleClickFavorite }
+      >
+        Favorite Recipes
+
+      </button>
+      <button
+        type="button"
+        data-testid="profile-logout-btn"
+        onClick={ handleClickLogout }
+      >
+        Logout
+
+      </button>
       <Footer />
     </div>
   );

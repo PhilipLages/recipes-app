@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes, { object, string } from 'prop-types';
 import '../styles/recipeDetailsCard.css';
 import RecommendedRecipes from './RecommendedRecipes';
 
 function RecipeDetailsCard(props) {
-  const [btn, setBtn] = useState(true);
   const {
     func,
     recipe,
@@ -63,8 +62,8 @@ function RecipeDetailsCard(props) {
       )}
       <button
         type="button"
+        className="start-recipe-btn "
         data-testid="start-recipe-btn"
-        onClick={ () => setBtn(!btn) }
       >
         Start Recipe
       </button>

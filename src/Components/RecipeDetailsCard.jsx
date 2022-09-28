@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes, { object, string } from 'prop-types';
 import '../styles/recipeDetailsCard.css';
-import RecommendedRecipes from './RecommendedRecipes';
 
 function RecipeDetailsCard(props) {
   const {
@@ -60,14 +59,6 @@ function RecipeDetailsCard(props) {
           />
         </div>
       )}
-      <button
-        type="button"
-        className="start-recipe-btn "
-        data-testid="start-recipe-btn"
-      >
-        Start Recipe
-      </button>
-      <RecommendedRecipes />
     </section>
   );
 }

@@ -56,8 +56,6 @@ function RecipeInProgressCard(props) {
       </div>
       <h3>Instructions</h3>
       <p data-testid="instructions">{recipe[instructions]}</p>
-      <button type="button" data-testid="favorite-btn">Favoritar</button>
-      <button type="button" data-testid="share-btn">Compartilhar</button>
       <button type="button" data-testid="finish-recipe-btn">Finalizar</button>
     </section>
   );

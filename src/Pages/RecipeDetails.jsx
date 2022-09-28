@@ -1,14 +1,18 @@
 import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
+import copy from 'clipboard-copy';
 import RecipesContext from '../Context';
 import RecipeDetailsCard from '../Components/RecipeDetailsCard';
+import RecommendedRecipes from '../Components/RecommendedRecipes';
+import '../styles/recipeCard.css';
 
 export default function RecipeDetails({ match: { params: { id } } }) {
   const [food, setFood] = useState([]);
   const [drink, setDrink] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [copiedLink, setCopiedLink] = useState(false);
 
-  const { history: { location: { pathname } } } = useContext(RecipesContext);
+  const { history: { push, location: { pathname } } } = useContext(RecipesContext);
 
   const getApiEAT = async () => {
     const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
@@ -37,6 +41,11 @@ export default function RecipeDetails({ match: { params: { id } } }) {
     getData();
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const startRecipe = () => {
+    if (pathname.includes('meals')) push(`/meals/${id}/in-progress`);
+    if (pathname.includes('drinks')) push(`/drinks/${id}/in-progress`);
+  };
 
   const getIngredients = () => {
     if (pathname.includes('meals')) {
@@ -88,6 +97,15 @@ export default function RecipeDetails({ match: { params: { id } } }) {
     }
   };
 
+  const shareRecipe = () => {
+    if (pathname.includes('meals')) {
+      copy(`http://localhost:3000/meals/${id}`);
+    } if (pathname.includes('drinks')) {
+      copy(`http://localhost:3000/drinks/${id}`);
+    }
+    setCopiedLink(true);
+  };
+
   return (
     <section>
       <h1>Recipe Details</h1>
@@ -119,6 +137,26 @@ export default function RecipeDetails({ match: { params: { id } } }) {
           )}
         </section>
       )}
+      <button
+        type="button"
+        className="start-recipe-btn "
+        data-testid="start-recipe-btn"
+        onClick={ () => startRecipe() }
+      >
+        Start Recipe
+      </button>
+      <button type="button" data-testid="favorite-btn">Favoritar</button>
+      <button
+        type="button"
+        onClick={ () => shareRecipe() }
+        data-testid="share-btn"
+      >
+        Compartilhar
+      </button>
+      {copiedLink && (<p>Link copied!</p>) }
+      <section>
+        <RecommendedRecipes />
+      </section>
     </section>
   );
 }

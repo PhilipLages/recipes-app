@@ -82,11 +82,7 @@ export default function RecipeDetails({ match: { params: { id } } }) {
   };
 
   const shareRecipe = () => {
-    if (pathname.includes('meals')) {
-      copy(`http://localhost:3000/meals/${id}`);
-    } if (pathname.includes('drinks')) {
-      copy(`http://localhost:3000/drinks/${id}`);
-    }
+    copy(`http://localhost:3000${pathname}`);
     setCopiedLink(true);
   };
 

@@ -117,7 +117,13 @@ function RecipeInProgress({ match: { params: { id } } }) {
           )}
         </section>
       )}
-
+      <button type="button" data-testid="favorite-btn">Favoritar</button>
+      <button
+        type="button"
+        data-testid="share-btn"
+      >
+        Compartilhar
+      </button>
     </section>
   );
 }

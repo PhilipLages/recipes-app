@@ -2,17 +2,25 @@ import React, { useContext } from 'react';
 import copy from 'clipboard-copy';
 import Header from '../Components/Header';
 import RecipesContext from '../Context';
-
 import { ReactComponent as ShareIcon } from '../images/shareIcon.svg';
 import { ReactComponent as BlackHeartIcon } from '../images/blackHeartIcon.svg';
 
 export default function FavoriteRecipes() {
-  const { favoriteRecipes, copiedLink, setCopiedLink } = useContext(RecipesContext);
-  console.log(favoriteRecipes);
+  const {
+    favoriteRecipes,
+    setFavoriteRecipes,
+    copiedLink,
+    setCopiedLink,
+  } = useContext(RecipesContext);
 
   const shareRecipe = (type, id) => {
     copy(`http://localhost:3000/${type}s/${id}`);
     setCopiedLink(true);
+  };
+
+  const removeFavorite = (id) => {
+    const filteredFavorites = favoriteRecipes.filter((recipe) => recipe.id !== id);
+    setFavoriteRecipes(filteredFavorites);
   };
 
   return (
@@ -42,7 +50,7 @@ export default function FavoriteRecipes() {
                 <h2 data-testid={ `${index}-horizontal-name` }>{name}</h2>
                 <button
                   type="button"
-                  // onClick={ () => addOrRemoveFavorite() }
+                  onClick={ () => removeFavorite(id) }
                   data-testid={ `${index}-horizontal-favorite-btn` }
                   src="../images/blackHeartIcon.svg"
                 >

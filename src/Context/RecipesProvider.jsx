@@ -18,6 +18,8 @@ export default function RecipesProvider({ children }) {
   const [drinks, setDrinks] = useState([]);
   const [mealsCategories, setMealsCategories] = useState([]);
   const [drinksCategories, setDrinksCategories] = useState([]);
+  const [copiedLink, setCopiedLink] = useState(false);
+
   const [email, setEmail] = useStorage('user', { email: '' });
   const [mealsToken, setMealsToken] = useStorage('mealsToken', 1);
   const [drinksToken, setDrinksToken] = useStorage('drinksToken', 1);
@@ -119,6 +121,9 @@ export default function RecipesProvider({ children }) {
     setFavoriteToStorage,
     favoriteRecipes,
     setFavoriteRecipes,
+    copiedLink,
+    setCopiedLink,
+
   };
 
   return (

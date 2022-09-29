@@ -1,7 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import copy from 'clipboard-copy';
 import RecipeInProgressCard from '../Components/RecipeInProgressCard';
 import RecipesContext from '../Context';
+import { ReactComponent as ShareIcon } from '../images/shareIcon.svg';
+import { ReactComponent as WhiteHeartIcon } from '../images/whiteHeartIcon.svg';
+import { ReactComponent as BlackHeartIcon } from '../images/blackHeartIcon.svg';
 import { fetchDrinkById, fetchMealById } from '../Services';
 
 function RecipeInProgress({ match: { params: { id } } }) {
@@ -9,7 +13,14 @@ function RecipeInProgress({ match: { params: { id } } }) {
   const [drink, setDrink] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const { history: { location: { pathname } } } = useContext(RecipesContext);
+  const {
+    favoriteRecipes,
+    setFavoriteRecipes,
+    setFavoriteToStorage,
+    copiedLink,
+    setCopiedLink,
+    history: { location: { pathname } },
+  } = useContext(RecipesContext);
 
   useEffect(() => {
     const getData = async () => {
@@ -28,18 +39,13 @@ function RecipeInProgress({ match: { params: { id } } }) {
   }, []);
 
   const getIngredients = () => {
+    const ingredientsAndMeasures = [];
     if (pathname.includes('meals')) {
       const ingredients = Object.entries(food[0])
-        .filter((item) => item[0].includes('Ingredient'))
-        .filter((ingredient) => ingredient[1] !== null)
-        .filter((ingredient) => ingredient[1] !== '');
+        .filter((it) => it[0].includes('Ingredient') && it[1] !== null && it[1] !== '');
 
       const measures = Object.entries(food[0])
-        .filter((item) => item[0].includes('Measure'))
-        .filter((measure) => measure[1] !== null)
-        .filter((measure) => measure[1] !== '');
-
-      const ingredientsAndMeasures = [];
+        .filter((it) => it[0].includes('Measure') && it[1] !== null && it[1] !== '');
 
       ingredients.forEach((ingredient, idx) => {
         ingredientsAndMeasures.push([...ingredient, measures[idx][1]]);
@@ -49,16 +55,11 @@ function RecipeInProgress({ match: { params: { id } } }) {
     }
     if (pathname.includes('drinks')) {
       const ingredients = Object.entries(drink[0])
-        .filter((item) => item[0].includes('Ingredient'))
-        .filter((ingredient) => ingredient[1] !== null)
-        .filter((ingredient) => ingredient[1] !== '');
+        .filter((it) => it[0].includes('Ingredient') && it[1] !== null && it[1] !== '');
 
       const measures = Object.entries(drink[0])
-        .filter((item) => item[0].includes('Measure'))
-        .filter((measure) => measure[1] !== null)
-        .filter((measure) => measure[1] !== '');
+        .filter((it) => it[0].includes('Measure') && it[1] !== null && it[1] !== '');
 
-      const ingredientsAndMeasures = [];
       const firstIngredient = [
         [...ingredients[0], measures[0][1]],
         [...ingredients[1], ''],
@@ -76,6 +77,33 @@ function RecipeInProgress({ match: { params: { id } } }) {
       return ingredientsAndMeasures;
     }
   };
+
+  const shareRecipe = () => {
+    if (pathname.includes('meals')) {
+      copy(`http://localhost:3000/meals/${id}`);
+    } if (pathname.includes('drinks')) {
+      copy(`http://localhost:3000/drinks/${id}`);
+    }
+    setCopiedLink(true);
+  };
+
+  const checkFavorite = () => favoriteRecipes.some((recipe) => recipe.id === id);
+  const removeFavorite = () => {
+    const filteredRecipes = favoriteRecipes.filter((recipe) => recipe.id !== id);
+    setFavoriteRecipes(filteredRecipes);
+  };
+
+  const addOrRemoveFavorite = () => {
+    if (pathname.includes('meals')) {
+      if (checkFavorite()) removeFavorite();
+      else setFavoriteToStorage(id, food[0]);
+    }
+    if (pathname.includes('drinks')) {
+      if (checkFavorite()) removeFavorite();
+      else setFavoriteToStorage(id, drink[0]);
+    }
+  };
+
   return (
     <section>
       <h1>Receita em andamento</h1>
@@ -106,13 +134,22 @@ function RecipeInProgress({ match: { params: { id } } }) {
           )}
         </section>
       )}
-      <button type="button" data-testid="favorite-btn">Favoritar</button>
       <button
         type="button"
+        onClick={ () => addOrRemoveFavorite() }
+        data-testid="favorite-btn"
+        src={ `../images/${checkFavorite() ? 'blackHeartIcon' : 'whiteHeartIcon'}` }
+      >
+        {checkFavorite() ? <BlackHeartIcon /> : <WhiteHeartIcon />}
+      </button>
+      <button
+        type="button"
+        onClick={ () => shareRecipe() }
         data-testid="share-btn"
       >
-        Compartilhar
+        <ShareIcon />
       </button>
+      {copiedLink && (<p>Link copied!</p>) }
     </section>
   );
 }

@@ -2,27 +2,26 @@ import React from 'react';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './RenderWithRouter';
-import Meals from '../Pages/Meals';
 
-describe('Desenvolva testes para atingir cobertura total do Header', () => {
-  it('Verifica se a página renderiza os elementos', () => {
-    renderWithRouter(<Meals />);
+import App from '../App';
 
-    const title = screen.getByTestId('footer');
-    expect(title).toBeInTheDocument();
+describe('Desenvolva testes do Componente footer', () => {
+  it('Verifica se os Botões do Footer  estão na tela e', () => {
+    const { history } = renderWithRouter(<App />, '/meals');
 
-    const drinksIconBtn = screen.getByTestId('drinks-bottom-btn');
-    expect(drinksIconBtn).toBeInTheDocument();
+    const btnDrinksFooter = screen.getByTestId('drinks-bottom-btn');
 
-    const mealsIconBtn = screen.getByTestId('meals-bottom-btn');
-    expect(mealsIconBtn).toBeInTheDocument();
+    expect(btnDrinksFooter).toBeInTheDocument();
+    userEvent.type(btnDrinksFooter);
+    expect(history.location.pathname).toEqual('/drinks');
   });
-  it('Verifica se ao clicar na imagem, muda a página', () => {
-    const { history } = renderWithRouter(<Meals />);
+  it('Verifica se os Botões do Footer  estão na tela ', () => {
+    const { history } = renderWithRouter(<App />, '/meals');
 
-    const btnIcon = screen.getByTestId('drinks-bottom-btn');
-    userEvent.click(btnIcon);
+    const btnMealsFooter = screen.getByTestId('meals-bottom-btn');
 
-    expect(history.location.pathname).toBe('/drinks');
+    expect(btnMealsFooter).toBeInTheDocument();
+    userEvent.type(btnMealsFooter);
+    expect(history.location.pathname).toEqual('/meals');
   });
 });

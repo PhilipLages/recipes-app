@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from 'react';
 import Header from '../Components/Header';
+import shareIcon from '../images/shareIcon.svg';
+import useStorage from '../Hooks';
 
 export default function DoneRecipes() {
-  const [doneRecipes, setDoneRecipes] = useState([]);
-  useEffect(() => {
-    const getRecipes = JSON.parse(localStorage.getItem('doneRecipes'));
-    if (getRecipes !== '') setDoneRecipes(getRecipes);
-  }, []);
+  const [doneRecipes] = useStorage('doneRecipes', []);
 
   return (
     <div>
@@ -22,21 +19,33 @@ export default function DoneRecipes() {
               data-testid={ `${index}-horizontal-image` }
               alt=""
             />
-            <p data-testid={ `${index}-horizontal-top-text` }>{ item.category }</p>
+            <p data-testid={ `${index}-horizontal-top-text` }>
+              { item.type === 'meal' ? `${item.nationality} - ${item.category}`
+                : `${item.alcoholicOrNot}` }
+
+            </p>
             <p data-testid={ `${index}-horizontal-name` }>{ item.name }</p>
             <p data-testid={ `${index}-horizontal-done-date` }>{ item.doneDate }</p>
+            {
+              item.tags.map((el) => (
+                <p
+                  key={ index }
+                  data-testid={ item.type === 'meal' ? `${index}-${el}-horizontal-tag`
+                    : '' }
+                >
+                  {el}
+
+                </p>
+              ))
+            }
             <button
               type="button"
               data-testid={ `${index}-horizontal-share-btn` }
+              src={ shareIcon }
             >
               Share
 
             </button>
-            {
-              item.tags.map((el) => (
-                <p key={ index } data-testid={ `${index}-${el}-horizontal-tag` }>{el}</p>
-              ))
-            }
           </div>
         ))
       }

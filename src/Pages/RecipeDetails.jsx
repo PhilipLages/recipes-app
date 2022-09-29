@@ -12,7 +12,10 @@ export default function RecipeDetails({ match: { params: { id } } }) {
   const [loading, setLoading] = useState(true);
   const [copiedLink, setCopiedLink] = useState(false);
 
-  const { history: { push, location: { pathname } } } = useContext(RecipesContext);
+  const {
+    setFavoriteToStorage,
+    history: { push, location: { pathname } },
+  } = useContext(RecipesContext);
 
   const getApiEAT = async () => {
     const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
@@ -145,7 +148,17 @@ export default function RecipeDetails({ match: { params: { id } } }) {
       >
         Start Recipe
       </button>
-      <button type="button" data-testid="favorite-btn">Favoritar</button>
+      <button
+        type="button"
+        onClick={ () => {
+          if (pathname.includes('meals')) setFavoriteToStorage(id, food[0]);
+          if (pathname.includes('drinks')) setFavoriteToStorage(id, drink[0]);
+        } }
+        data-testid="favorite-btn"
+      >
+        Favoritar
+
+      </button>
       <button
         type="button"
         onClick={ () => shareRecipe() }

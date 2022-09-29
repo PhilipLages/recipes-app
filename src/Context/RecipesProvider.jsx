@@ -14,14 +14,16 @@ import {
 
 export default function RecipesProvider({ children }) {
   const [search, setSearch] = useState({ searchText: '', radioInputs: '' });
-  const [email, setEmail] = useStorage('user', { email: '' });
   const [meals, setMeals] = useState([]);
   const [drinks, setDrinks] = useState([]);
   const [mealsCategories, setMealsCategories] = useState([]);
   const [drinksCategories, setDrinksCategories] = useState([]);
 
+  const [email, setEmail] = useStorage('user', { email: '' });
   const [mealsToken, setMealsToken] = useStorage('mealsToken', 1);
   const [drinksToken, setDrinksToken] = useStorage('drinksToken', 1);
+  const [favoriteRecipes, setFavoriteRecipes] = useStorage('favoriteRecipes', []);
+
   const history = useHistory();
 
   const handleChange = (({ target: { name, value } }) => {
@@ -78,6 +80,26 @@ export default function RecipesProvider({ children }) {
     }
   };
 
+  const setFavoriteToStorage = (id, recipe) => {
+    const { location: { pathname } } = history;
+    const type = pathname.includes('meals') ? 'meal' : 'drink';
+    const alcoholicOrNot = pathname.includes('drinks') ? recipe.strAlcoholic : '';
+    const name = pathname.includes('meals') ? recipe.strMeal : recipe.strDrink;
+    const image = pathname.includes('meals') ? recipe.strMealThumb : recipe.strDrinkThumb;
+    const nationality = pathname.includes('meals') ? recipe.strArea : '';
+
+    const newFavorite = {
+      id,
+      type,
+      nationality,
+      category: recipe.strCategory,
+      alcoholicOrNot,
+      name,
+      image,
+    };
+    setFavoriteRecipes((prevStorage) => [...prevStorage, newFavorite]);
+  };
+
   const context = {
     search,
     filterByCategory,
@@ -96,6 +118,8 @@ export default function RecipesProvider({ children }) {
     history,
     mealsCategories,
     drinksCategories,
+    setFavoriteToStorage,
+    favoriteRecipes,
   };
 
   return (

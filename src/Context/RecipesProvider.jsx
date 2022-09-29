@@ -24,6 +24,10 @@ export default function RecipesProvider({ children }) {
   const [mealsToken, setMealsToken] = useStorage('mealsToken', 1);
   const [drinksToken, setDrinksToken] = useStorage('drinksToken', 1);
   const [favoriteRecipes, setFavoriteRecipes] = useStorage('favoriteRecipes', []);
+  const [startRecipeStorage, setStartRecipeStorage] = useStorage('inProgressRecipes', {
+    drinks: {},
+    meals: {},
+  });
 
   const history = useHistory();
 
@@ -107,6 +111,8 @@ export default function RecipesProvider({ children }) {
     handleChange,
     setMeals,
     setDrinks,
+    startRecipeStorage,
+    setStartRecipeStorage,
     email,
     setEmail,
     mealsToken,

@@ -111,6 +111,7 @@ function RecipeInProgress({ match: { params: { id } } }) {
         <section>
           {pathname.includes('meals') && (
             <RecipeInProgressCard
+              id={ id }
               recipe={ food[0] }
               func={ getIngredients }
               pathname={ pathname }
@@ -122,6 +123,7 @@ function RecipeInProgress({ match: { params: { id } } }) {
           )}
           {pathname.includes('drinks') && (
             <RecipeInProgressCard
+              id={ id }
               recipe={ drink[0] }
               func={ getIngredients }
               pathname={ pathname }

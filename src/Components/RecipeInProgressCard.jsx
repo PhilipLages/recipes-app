@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/recipeInProgress.css';
 import useStorage from '../Hooks';
+import RecipesContext from '../Context';
 
 function RecipeInProgressCard(props) {
   const {
@@ -20,11 +21,25 @@ function RecipeInProgressCard(props) {
     Array(func(pathname, recipe).length).fill(false),
   );
 
+  const { history } = useContext(RecipesContext);
+
   const handleOnChange = async (position) => {
     const updatedCheckedState = checkedState
       .map((item, index) => (index === position ? !item : item));
 
     setCheckedState(updatedCheckedState);
+  };
+
+  const checkFinish = () => {
+    const checkAllCheckbox = checkedState
+      .every((e) => e === true);
+    return !checkAllCheckbox;
+  };
+
+  const callCheckFinish = checkFinish();
+
+  const finishedRecipe = () => {
+    history.push('/done-recipes');
   };
 
   return (
@@ -58,7 +73,15 @@ function RecipeInProgressCard(props) {
       </div>
       <h3>Instructions</h3>
       <p data-testid="instructions">{recipe[instructions]}</p>
-      <button type="button" data-testid="finish-recipe-btn">Finalizar</button>
+      <button
+        type="button"
+        data-testid="finish-recipe-btn"
+        disabled={ callCheckFinish }
+        onClick={ finishedRecipe }
+      >
+        Finalizar
+
+      </button>
     </section>
   );
 }

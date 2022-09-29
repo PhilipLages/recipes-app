@@ -35,6 +35,10 @@ export default function RecipesProvider({ children }) {
       doneDate: '',
       tags: [],
     }]);
+  const [startRecipeStorage, setStartRecipeStorage] = useStorage('inProgressRecipes', {
+    drinks: {},
+    meals: {},
+  });
 
   const history = useHistory();
 
@@ -118,6 +122,8 @@ export default function RecipesProvider({ children }) {
     handleChange,
     setMeals,
     setDrinks,
+    startRecipeStorage,
+    setStartRecipeStorage,
     email,
     setEmail,
     mealsToken,

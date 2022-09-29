@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/recipeInProgress.css';
-import useStorage from '../Hooks';
+import RecipesContext from '../Context';
 
 function RecipeInProgressCard(props) {
   const {
@@ -13,18 +13,44 @@ function RecipeInProgressCard(props) {
     category,
     instructions,
     alcoholic,
+    id,
   } = props;
 
-  const [checkedState, setCheckedState] = useStorage(
-    'inProgressRecipes',
+  const [checkedState, setCheckedState] = useState(
     Array(func(pathname, recipe).length).fill(false),
   );
 
-  const handleOnChange = async (position) => {
+  const { history, setStartRecipeStorage } = useContext(RecipesContext);
+
+  const handleOnChange = (position, ingredient) => {
     const updatedCheckedState = checkedState
       .map((item, index) => (index === position ? !item : item));
 
     setCheckedState(updatedCheckedState);
+    if (pathname.includes('meals')) {
+      setStartRecipeStorage((prevState) => ({
+        ...prevState,
+        meals: { ...prevState.meals, [id]: [...prevState.meals[id], ingredient] },
+      }));
+    }
+    if (pathname.includes('drinks')) {
+      setStartRecipeStorage((prevState) => ({
+        ...prevState,
+        drinks: { ...prevState.drinks, [id]: [...prevState.drinks[id], ingredient] },
+      }));
+    }
+  };
+
+  const checkFinish = () => {
+    const checkAllCheckbox = checkedState
+      .every((e) => e === true);
+    return !checkAllCheckbox;
+  };
+
+  const callCheckFinish = checkFinish();
+
+  const finishedRecipe = () => {
+    history.push('/done-recipes');
   };
 
   return (
@@ -48,7 +74,7 @@ function RecipeInProgressCard(props) {
             <input
               type="checkbox"
               checked={ checkedState[index] }
-              onChange={ () => handleOnChange(index) }
+              onChange={ () => handleOnChange(index, ingredient[1]) }
               name={ recipe[name] }
               id={ index }
             />
@@ -58,7 +84,15 @@ function RecipeInProgressCard(props) {
       </div>
       <h3>Instructions</h3>
       <p data-testid="instructions">{recipe[instructions]}</p>
-      <button type="button" data-testid="finish-recipe-btn">Finalizar</button>
+      <button
+        type="button"
+        data-testid="finish-recipe-btn"
+        disabled={ callCheckFinish }
+        onClick={ finishedRecipe }
+      >
+        Finalizar
+
+      </button>
     </section>
   );
 }

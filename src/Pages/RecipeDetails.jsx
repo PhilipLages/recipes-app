@@ -22,8 +22,13 @@ export default function RecipeDetails({ match: { params: { id } } }) {
     setFavoriteRecipes,
     copiedLink,
     setCopiedLink,
+    setStartRecipeStorage,
+    startRecipeStorage,
     history: { push, location: { pathname } },
   } = useContext(RecipesContext);
+
+  const DRINKS = startRecipeStorage.drinks;
+  const MEALS = startRecipeStorage.meals;
 
   useEffect(() => {
     const getData = async () => {
@@ -43,8 +48,20 @@ export default function RecipeDetails({ match: { params: { id } } }) {
   }, []);
 
   const startRecipe = () => {
-    if (pathname.includes('meals')) push(`/meals/${id}/in-progress`);
-    if (pathname.includes('drinks')) push(`/drinks/${id}/in-progress`);
+    if (pathname.includes('meals')) {
+      setStartRecipeStorage((prevState) => ({
+        ...prevState,
+        meals: { ...prevState.meals, [id]: [] },
+      }));
+      push(`/meals/${id}/in-progress`);
+    }
+    if (pathname.includes('drinks')) {
+      setStartRecipeStorage((prevState) => ({
+        ...prevState,
+        drinks: { ...prevState.drinks, [id]: [] },
+      }));
+      push(`/drinks/${id}/in-progress`);
+    }
   };
 
   const getIngredients = () => {
@@ -113,39 +130,78 @@ export default function RecipeDetails({ match: { params: { id } } }) {
       {!loading && (
         <section>
           {pathname.includes('meals') && (
-            <RecipeDetailsCard
-              func={ getIngredients }
-              recipe={ food[0] }
-              pathname={ pathname }
-              thumb="strMealThumb"
-              name="strMeal"
-              category="strCategory"
-              instructions="strInstructions"
-              video="strYoutube"
-            />
+            <div>
+              <RecipeDetailsCard
+                func={ getIngredients }
+                recipe={ food[0] }
+                pathname={ pathname }
+                thumb="strMealThumb"
+                name="strMeal"
+                category="strCategory"
+                instructions="strInstructions"
+                video="strYoutube"
+              />
+              {Object.keys(MEALS).find((e) => e === id)
+                ? (
+                  <button
+                    type="button"
+                    className="start-recipe-btn "
+                    data-testid="start-recipe-btn"
+                    onClick={ () => startRecipe() }
+                  >
+                    Continue Recipe
+                  </button>
+                )
+                : (
+                  <button
+                    type="button"
+                    className="start-recipe-btn "
+                    data-testid="start-recipe-btn"
+                    onClick={ () => startRecipe() }
+                  >
+                    Start Recipe
+                  </button>
+                )}
+            </div>
           )}
           {pathname.includes('drinks') && (
-            <RecipeDetailsCard
-              func={ getIngredients }
-              recipe={ drink[0] }
-              pathname={ pathname }
-              thumb="strDrinkThumb"
-              name="strDrink"
-              category="strCategory"
-              instructions="strInstructions"
-              alcoholic="strAlcoholic"
-            />
+            <div>
+              <RecipeDetailsCard
+                func={ getIngredients }
+                recipe={ drink[0] }
+                pathname={ pathname }
+                thumb="strDrinkThumb"
+                name="strDrink"
+                category="strCategory"
+                instructions="strInstructions"
+                alcoholic="strAlcoholic"
+              />
+              {Object.keys(DRINKS).find((e) => e === id)
+                ? (
+                  <button
+                    type="button"
+                    className="start-recipe-btn "
+                    data-testid="start-recipe-btn"
+                    onClick={ () => startRecipe() }
+                  >
+                    Continue Recipe
+                  </button>
+                )
+                : (
+                  <button
+                    type="button"
+                    className="start-recipe-btn "
+                    data-testid="start-recipe-btn"
+                    onClick={ () => startRecipe() }
+                  >
+                    Start Recipe
+                  </button>
+                )}
+            </div>
           )}
         </section>
       )}
-      <button
-        type="button"
-        className="start-recipe-btn "
-        data-testid="start-recipe-btn"
-        onClick={ () => startRecipe() }
-      >
-        Start Recipe
-      </button>
+
       <button
         type="button"
         onClick={ () => addOrRemoveFavorite() }

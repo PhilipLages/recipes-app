@@ -1,7 +1,6 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/recipeInProgress.css';
-import useStorage from '../Hooks';
 import RecipesContext from '../Context';
 
 function RecipeInProgressCard(props) {
@@ -14,20 +13,32 @@ function RecipeInProgressCard(props) {
     category,
     instructions,
     alcoholic,
+    id,
   } = props;
 
-  const [checkedState, setCheckedState] = useStorage(
-    'inProgressRecipes',
+  const [checkedState, setCheckedState] = useState(
     Array(func(pathname, recipe).length).fill(false),
   );
 
-  const { history } = useContext(RecipesContext);
+  const { history, setStartRecipeStorage } = useContext(RecipesContext);
 
-  const handleOnChange = async (position) => {
+  const handleOnChange = (position, ingredient) => {
     const updatedCheckedState = checkedState
       .map((item, index) => (index === position ? !item : item));
 
     setCheckedState(updatedCheckedState);
+    if (pathname.includes('meals')) {
+      setStartRecipeStorage((prevState) => ({
+        ...prevState,
+        meals: { ...prevState.meals, [id]: [...prevState.meals[id], ingredient] },
+      }));
+    }
+    if (pathname.includes('drinks')) {
+      setStartRecipeStorage((prevState) => ({
+        ...prevState,
+        drinks: { ...prevState.drinks, [id]: [...prevState.drinks[id], ingredient] },
+      }));
+    }
   };
 
   const checkFinish = () => {
@@ -63,7 +74,7 @@ function RecipeInProgressCard(props) {
             <input
               type="checkbox"
               checked={ checkedState[index] }
-              onChange={ () => handleOnChange(index) }
+              onChange={ () => handleOnChange(index, ingredient[1]) }
               name={ recipe[name] }
               id={ index }
             />

@@ -7,7 +7,33 @@ import App from '../App';
 const SEARCH_TOP_BTN = 'search-top-btn';
 
 describe('Desenvolva testes para atingir cobertura total do Header', () => {
-  global.alert = jest.fn();
+  it('Verifica se e exibida a mensagem de alerta caso não encontre nenhuma receita', async () => {
+    renderWithRouter(<App />, '/meals');
+
+    const btnSearch = screen.getByTestId(SEARCH_TOP_BTN);
+    expect(btnSearch).toBeInTheDocument();
+    userEvent.click(btnSearch);
+
+    await waitFor(
+      () => expect(screen.getByText(/search/i)),
+    );
+
+    const inputSearch = screen.getByTestId('search-input');
+    userEvent.type(inputSearch, 'xxxx');
+
+    const BtnRadioName = screen.getByTestId('name-search-radio');
+    userEvent.type(BtnRadioName, { target: { value: true } });
+    expect(BtnRadioName.value).toBe('name');
+
+    const btnSearchRecipes = screen.getByTestId('exec-search-btn');
+    expect(btnSearchRecipes).toBeInTheDocument();
+    userEvent.click(btnSearchRecipes);
+
+    const alertMock = jest.spyOn(window, 'alert').mockImplementation();
+    await waitFor(
+      () => expect(alertMock).toHaveBeenCalledTimes(1),
+    );
+  });
   it('Verifica o uso do input do searchBar ', () => {
     renderWithRouter(<App />, '/meals');
 
@@ -58,24 +84,5 @@ describe('Desenvolva testes para atingir cobertura total do Header', () => {
     const btnSearchRecipes = screen.getByTestId('exec-search-btn');
     expect(btnSearchRecipes).toBeInTheDocument();
     userEvent.click(btnSearchRecipes);
-  });
-  it.only('Verifica se e exibida a mensagem de alerta caso não encontre nenhuma receita', async () => {
-    renderWithRouter(<App />, '/meals');
-
-    const btnSearch = screen.getByTestId(SEARCH_TOP_BTN);
-    expect(btnSearch).toBeInTheDocument();
-    userEvent.click(btnSearch);
-
-    await waitFor(
-      () => expect(screen.getByText(/search/i)),
-    );
-
-    const inputSearch = screen.getByTestId('search-input');
-    userEvent.type(inputSearch, 'abc');
-    const btnSearchRecipes = screen.getByTestId('exec-search-btn');
-    expect(btnSearchRecipes).toBeInTheDocument();
-    userEvent.click(btnSearchRecipes);
-
-    expect(global.alert).toHaveBeenCalledTimes(1);
   });
 });

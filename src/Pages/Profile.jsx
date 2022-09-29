@@ -6,7 +6,7 @@ import useStorage from '../Hooks';
 
 export default function Profile() {
   const { setEmail, history } = useContext(RecipesContext);
-  const localStorage = useStorage('user', setEmail);
+  const [localStorage] = useStorage('user', setEmail);
 
   const handleClickDoneReciples = () => {
     history.push('/done-recipes');

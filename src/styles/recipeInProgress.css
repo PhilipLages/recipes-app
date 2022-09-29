@@ -1,0 +1,9 @@
+.in-progress-ingredients {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.check-ingredient {
+  text-decoration: line-through;
+}

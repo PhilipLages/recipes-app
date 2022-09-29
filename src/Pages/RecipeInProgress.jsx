@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import RecipeInProgressCard from '../Components/RecipeInProgressCard';
 import RecipesContext from '../Context';
+import { fetchDrinkById, fetchMealById } from '../Services';
 
 function RecipeInProgress({ match: { params: { id } } }) {
   const [food, setFood] = useState([]);
@@ -10,26 +11,14 @@ function RecipeInProgress({ match: { params: { id } } }) {
 
   const { history: { location: { pathname } } } = useContext(RecipesContext);
 
-  const getApiEAT = async () => {
-    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
-    const { meals } = await response.json();
-    return meals;
-  };
-
-  const getApiDrink = async () => {
-    const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
-    const { drinks } = await response.json();
-    return drinks;
-  };
-
   useEffect(() => {
     const getData = async () => {
       if (pathname.includes('meals')) {
-        const mealData = await getApiEAT();
+        const mealData = await fetchMealById(id);
         setFood(mealData);
         setLoading(false);
       } if (pathname.includes('drinks')) {
-        const drinkData = await getApiDrink();
+        const drinkData = await fetchDrinkById(id);
         setDrink(drinkData);
         setLoading(false);
       }

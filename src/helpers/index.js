@@ -11,3 +11,9 @@ const checkData = (data, push, ...rest) => {
 };
 
 export default checkData;
+
+export const setOneMeasureDrink = (ingredients, measures) => [
+  [...ingredients[0], measures[0][1]],
+  [...ingredients[1], ''],
+  [...ingredients[2], ''],
+];

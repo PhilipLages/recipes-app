@@ -18,7 +18,6 @@ export default function RecipesProvider({ children }) {
   const [drinks, setDrinks] = useState([]);
   const [mealsCategories, setMealsCategories] = useState([]);
   const [drinksCategories, setDrinksCategories] = useState([]);
-
   const [email, setEmail] = useStorage('user', { email: '' });
   const [mealsToken, setMealsToken] = useStorage('mealsToken', 1);
   const [drinksToken, setDrinksToken] = useStorage('drinksToken', 1);
@@ -48,7 +47,6 @@ export default function RecipesProvider({ children }) {
   }, []);
 
   const filterByCategory = async ({ target }) => {
-    console.log(target.checked);
     if (!target.checked) {
       if (history.location.pathname === '/meals') {
         const { meals: mealsData } = await fetchMeals();
@@ -120,6 +118,7 @@ export default function RecipesProvider({ children }) {
     drinksCategories,
     setFavoriteToStorage,
     favoriteRecipes,
+    setFavoriteRecipes,
   };
 
   return (

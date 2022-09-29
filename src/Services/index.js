@@ -75,6 +75,18 @@ export const searchMealsAPI = async (input, radio) => {
   return data;
 };
 
+export const fetchMealById = async (id) => {
+  const response = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+  const { meals } = await response.json();
+  return meals;
+};
+
+export const fetchDrinkById = async (id) => {
+  const response = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
+  const { drinks } = await response.json();
+  return drinks;
+};
+
 export const searchDrinksAPI = async (input, radio) => {
   const URL = getDrinks(input, radio);
   const response = await fetch(URL);

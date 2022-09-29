@@ -24,6 +24,17 @@ export default function RecipesProvider({ children }) {
   const [mealsToken, setMealsToken] = useStorage('mealsToken', 1);
   const [drinksToken, setDrinksToken] = useStorage('drinksToken', 1);
   const [favoriteRecipes, setFavoriteRecipes] = useStorage('favoriteRecipes', []);
+  const [doneRecipes, setDoneRecipes] = useStorage([
+    { id: '',
+      type: '',
+      nationality: '',
+      category: '',
+      alcoholicOrNot: false,
+      name: '',
+      image: '',
+      doneDate: '',
+      tags: [],
+    }]);
   const [startRecipeStorage, setStartRecipeStorage] = useStorage('inProgressRecipes', {
     drinks: {},
     meals: {},
@@ -129,7 +140,8 @@ export default function RecipesProvider({ children }) {
     setFavoriteRecipes,
     copiedLink,
     setCopiedLink,
-
+    doneRecipes,
+    setDoneRecipes,
   };
 
   return (

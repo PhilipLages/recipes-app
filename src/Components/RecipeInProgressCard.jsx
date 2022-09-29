@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import '../styles/recipeInProgress.css';
+import useStorage from '../Hooks';
 
 function RecipeInProgressCard(props) {
   const {
@@ -14,11 +15,12 @@ function RecipeInProgressCard(props) {
     alcoholic,
   } = props;
 
-  const [checkedState, setCheckedState] = useState(
+  const [checkedState, setCheckedState] = useStorage(
+    'inProgressRecipes',
     Array(func(pathname, recipe).length).fill(false),
   );
 
-  const handleOnChange = (position) => {
+  const handleOnChange = async (position) => {
     const updatedCheckedState = checkedState
       .map((item, index) => (index === position ? !item : item));
 

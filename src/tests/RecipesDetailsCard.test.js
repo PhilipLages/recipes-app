@@ -4,9 +4,10 @@ import userEvent from '@testing-library/user-event';
 import renderWithRouter from './RenderWithRouter';
 import App from '../App';
 import fetch from '../../cypress/mocks/fetch';
-// import meals from '../../cypress/mocks/meals';
+import meals from '../../cypress/mocks/meals';
+import drinks from '../../cypress/mocks/drinks';
 
-describe('Testa 45% do componente RecipeDetailsCard', () => {
+describe('Testa 45% do componente RecipeDetails', () => {
   it('Verifica se o botão é rederizado na tela de meals', async () => {
     const urlMeal = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=52771';
     fetch(urlMeal);
@@ -43,54 +44,47 @@ describe('Testa 45% do componente RecipeDetailsCard', () => {
       expect(history.location.pathname).toBe('/drinks/13501/in-progress');
     });
   });
+});
 
-  it('', () => {
+const promiseMock = Promise.resolve({
+  json: () => Promise.resolve(meals),
+});
 
+describe('Chamada de Api Meals', () => {
+  beforeEach(() => {
+    jest.spyOn(global, 'fetch');
+    global.fetch = jest.fn(() => promiseMock);
+  });
+
+  it('Verifica se api Meals é chamada', async () => {
+    renderWithRouter(<App />, '/meals');
+
+    const corba = await screen.findByText(/corba/i);
+
+    userEvent.click(corba);
+
+    expect(await screen.findByRole('heading', { name: /Recipe Details/i, level: 1 }));
+    expect(await screen.findByRole('heading', { name: /Corba/i, level: 2 }));
   });
 });
 
-const SEARCH_TOP_BTN = 'search-top-btn';
-// const SEARCH_INPUT = 'search-input';
-// const NAME_SEARCH_RADIO = 'name-search-radio';
-// const EXEC_SEARCH_BTN = 'exec-search-btn';
+const promiseMockDrink = Promise.resolve({
+  json: () => Promise.resolve(drinks),
+});
 
-const url = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=52771';
-const testDoneRecipes = [{
-  id: '52771',
-  type: 'meal',
-  nationality: 'Italian',
-  category: 'Vegetarian',
-  alcoholicOrNot: '',
-  name: 'Spicy Arrabiata Penne',
-  image: 'https://www.themealdb.com/images/media/meals/ustsqw1468250014.jpg',
-  doneDate: '22/6/2020',
-  tags: ['Pasta', 'Curry'],
-}];
-
-jest.useRealTimers();
-jest.setTimeout(30000);
-
-describe('Chamada de Api', () => {
-  afterEach(() => {
-    global.fetch = jest.fn().mockResolvedValue({
-      json: () => Promise.resolve(testDoneRecipes),
-    });
+describe('Chamada Api Drinks', () => {
+  beforeEach(() => {
+    jest.spyOn(global, 'fetch');
+    global.fetch = jest.fn(() => promiseMockDrink);
   });
-  // afterEach(() => fetchMock.restore());
+  it('Verifica se api Drinks é chamada', async () => {
+    renderWithRouter(<App />, '/drinks');
 
-  it.only('Verifica se api Meals é chamada', async () => {
-    const { history } = renderWithRouter(<App />, '/meals');
+    const GG = await screen.findByText(/GG/i);
 
-    const btnSearch = screen.getByTestId(SEARCH_TOP_BTN);
+    userEvent.click(GG);
 
-    fetchMock.mock(url, testDoneRecipes);
-
-    userEvent.click(btnSearch);
-
-    await waitFor(() => {
-      expect(fetchMock.called(url)).toBeTruthy();
-    });
-
-    expect(history.location.pathname).toBe('/meals/52771');
+    expect(await screen.findByRole('heading', { name: /Recipe Details/i, level: 1 }));
+    expect(await screen.findByRole('heading', { name: /GG/i, level: 2 }));
   });
 });

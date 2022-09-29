@@ -15,12 +15,13 @@ export default function RecipeDetails({ match: { params: { id } } }) {
   const [food, setFood] = useState([]);
   const [drink, setDrink] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [copiedLink, setCopiedLink] = useState(false);
 
   const {
     setFavoriteToStorage,
     favoriteRecipes,
     setFavoriteRecipes,
+    copiedLink,
+    setCopiedLink,
     history: { push, location: { pathname } },
   } = useContext(RecipesContext);
 

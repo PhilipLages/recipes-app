@@ -22,13 +22,12 @@ export default function RecipeDetails({ match: { params: { id } } }) {
     setFavoriteRecipes,
     copiedLink,
     setCopiedLink,
-    setStartRecipeStorage,
-    startRecipeStorage,
+    inProgressRecipes,
     history: { push, location: { pathname } },
   } = useContext(RecipesContext);
 
-  const DRINKS = startRecipeStorage.drinks;
-  const MEALS = startRecipeStorage.meals;
+  const DRINKS = inProgressRecipes.drinks;
+  const MEALS = inProgressRecipes.meals;
 
   useEffect(() => {
     const getData = async () => {
@@ -48,20 +47,8 @@ export default function RecipeDetails({ match: { params: { id } } }) {
   }, []);
 
   const startRecipe = () => {
-    if (pathname.includes('meals')) {
-      setStartRecipeStorage((prevState) => ({
-        ...prevState,
-        meals: { ...prevState.meals, [id]: [] },
-      }));
-      push(`/meals/${id}/in-progress`);
-    }
-    if (pathname.includes('drinks')) {
-      setStartRecipeStorage((prevState) => ({
-        ...prevState,
-        drinks: { ...prevState.drinks, [id]: [] },
-      }));
-      push(`/drinks/${id}/in-progress`);
-    }
+    if (pathname.includes('meals')) push(`/meals/${id}/in-progress`);
+    if (pathname.includes('drinks')) push(`/drinks/${id}/in-progress`);
   };
 
   const getIngredients = () => {

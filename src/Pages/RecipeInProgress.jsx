@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import copy from 'clipboard-copy';
-import RecipeInProgressCard from '../Components/RecipeInProgressCard';
 import RecipesContext from '../Context';
 import { ReactComponent as ShareIcon } from '../images/shareIcon.svg';
 import { ReactComponent as WhiteHeartIcon } from '../images/whiteHeartIcon.svg';
 import { ReactComponent as BlackHeartIcon } from '../images/blackHeartIcon.svg';
 import { fetchDrinkById, fetchMealById } from '../Services';
+import RecipeInProgressCard from '../Components/RecipeInProgressCard';
 
 function RecipeInProgress({ match: { params: { id } } }) {
   const [food, setFood] = useState([]);

@@ -8,7 +8,7 @@ describe('Desenvolva testes para atingir cobertura total do APP', () => {
   const EMAIL_INPUT = 'email-input';
   const PASSWORD_INPUT = 'password-input';
 
-  test('Verifica se o input E-mail é renderizado', () => {
+  it('Verifica se o input E-mail é renderizado', () => {
     renderWithRouter(<App />);
 
     const emailRender = screen.getByTestId(EMAIL_INPUT);
@@ -16,28 +16,28 @@ describe('Desenvolva testes para atingir cobertura total do APP', () => {
     expect(emailRender).toBeInTheDocument();
   });
 
-  test('Verifica se o input Password é renderizado', () => {
+  it('Verifica se o input Password é renderizado', () => {
     renderWithRouter(<App />);
 
     const passwordRender = screen.getByTestId(PASSWORD_INPUT);
 
     expect(passwordRender).toBeInTheDocument();
   });
-  test('Verifica se o botão é renderizado', () => {
+  it('Verifica se o botão é renderizado', () => {
     renderWithRouter(<App />);
 
     const button = screen.getByRole('button', { name: /Enter/i });
 
     expect(button).toBeInTheDocument();
   });
-  test('Verifica se button esta desabilitado ao entrar na tela', () => {
+  it('Verifica se button esta desabilitado ao entrar na tela', () => {
     renderWithRouter(<App />);
 
     const button = screen.getByRole('button', { name: /Enter/i });
 
     expect(button).toBeDisabled();
   });
-  test('Verifica se button esta habilitado ao digitar email e senha', () => {
+  it('Verifica se button esta habilitado ao digitar email e senha', () => {
     renderWithRouter(<App />);
 
     const buttonHab = screen.getByRole('button', { name: /enter/i });
@@ -52,7 +52,7 @@ describe('Desenvolva testes para atingir cobertura total do APP', () => {
     expect(buttonHab).toBeEnabled();
   });
 
-  test('Verifica se é redirecionado para a página "Meals" após efetuar login', () => {
+  it('Verifica se é redirecionado para a página "Meals" após efetuar login', () => {
     const { history } = renderWithRouter(<App />);
 
     const button = screen.getByRole('button', { name: /enter/i });

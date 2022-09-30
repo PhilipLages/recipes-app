@@ -39,22 +39,18 @@ it.only('Verifica os elementos na tela de Comida , imagem , texto e video', () =
   const favButton = screen.getByTestId('favorite-btn');
   const shareButton = screen.getByTestId('share-btn');
   const imgMeals = screen.getByTestId('recipe-photo');
-  const recipeTitleMeal = screen.getByTestId('recipe-title');
-  const recipeCategoryMeals = screen.getByTestId('recipe-category');
+  // const recipeTitleMeal = screen.getByTestId('recipe-title');
+  // const recipeCategoryMeals = screen.getByTestId('recipe-category');
 
   expect(favButton).toBeInTheDocument();
   expect(shareButton).toBeInTheDocument();
   expect(imgMeals).toBeInTheDocument();
 });
 
-
-<li data-testid="0-ingredient-name-and-measure">Filo Pastry - 1 Packet</li>
-
+/* <li data-testid="0-ingredient-name-and-measure">Filo Pastry - 1 Packet</li>
 const recipeCategoryMeals = screen.getByTestId('recipe-category')
-
-
 await waitFor(() => {
   for (let index = 0; index < RECIPES_LIMIT; index += 1) {
     expect(screen.getByTestId(`${index}-recipe-card`)).toBeInTheDocument();
   }
-}, { timeout: 3000 });
+}, { timeout: 3000 }); */

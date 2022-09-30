@@ -24,7 +24,7 @@ export default function RecipesProvider({ children }) {
   const [mealsToken, setMealsToken] = useStorage('mealsToken', 1);
   const [drinksToken, setDrinksToken] = useStorage('drinksToken', 1);
   const [favoriteRecipes, setFavoriteRecipes] = useStorage('favoriteRecipes', []);
-  const [doneRecipes, setDoneRecipes] = useStorage([
+  const [doneRecipes, setDoneRecipes] = useStorage('doneRecipes', [
     { id: '',
       type: '',
       nationality: '',
@@ -35,7 +35,7 @@ export default function RecipesProvider({ children }) {
       doneDate: '',
       tags: [],
     }]);
-  const [startRecipeStorage, setStartRecipeStorage] = useStorage('inProgressRecipes', {
+  const [inProgressRecipes, setInProgressRecipes] = useStorage('inProgressRecipes', {
     drinks: {},
     meals: {},
   });
@@ -122,8 +122,8 @@ export default function RecipesProvider({ children }) {
     handleChange,
     setMeals,
     setDrinks,
-    startRecipeStorage,
-    setStartRecipeStorage,
+    inProgressRecipes,
+    setInProgressRecipes,
     email,
     setEmail,
     mealsToken,

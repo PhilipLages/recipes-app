@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/recipeInProgress.css';
 import RecipesContext from '../Context';
@@ -20,23 +20,51 @@ function RecipeInProgressCard(props) {
     Array(func(pathname, recipe).length).fill(false),
   );
 
-  const { history, setStartRecipeStorage } = useContext(RecipesContext);
+  const {
+    history,
+    inProgressRecipes,
+    setInProgressRecipes,
+  } = useContext(RecipesContext);
+
+  const ingredients = func(pathname, recipe).map((item) => item[1]);
+
+  useEffect(() => {
+    if (pathname.includes('meals')) {
+      setInProgressRecipes((prevState) => ({
+        ...prevState,
+        meals: { ...prevState.meals, [id]: ingredients },
+      }));
+    }
+    if (pathname.includes('drinks')) {
+      setInProgressRecipes((prevState) => ({
+        ...prevState,
+        drinks: { ...prevState.drinks, [id]: ingredients },
+      }));
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleOnChange = (position, ingredient) => {
     const updatedCheckedState = checkedState
       .map((item, index) => (index === position ? !item : item));
 
     setCheckedState(updatedCheckedState);
+
     if (pathname.includes('meals')) {
-      setStartRecipeStorage((prevState) => ({
-        ...prevState,
-        meals: { ...prevState.meals, [id]: [...prevState.meals[id], ingredient] },
+      setInProgressRecipes((prevState) => ({ ...prevState,
+        meals: {
+          ...prevState.meals,
+          [id]: [...prevState.meals[id].filter((item) => item !== ingredient)],
+        },
       }));
     }
     if (pathname.includes('drinks')) {
-      setStartRecipeStorage((prevState) => ({
+      setInProgressRecipes((prevState) => ({
         ...prevState,
-        drinks: { ...prevState.drinks, [id]: [...prevState.drinks[id], ingredient] },
+        drinks: {
+          ...prevState.drinks,
+          [id]: [...prevState.drinks[id].filter((item) => item !== ingredient)],
+        },
       }));
     }
   };
@@ -48,6 +76,17 @@ function RecipeInProgressCard(props) {
   };
 
   const callCheckFinish = checkFinish();
+
+  const checkWithLocalStorage = (ingredient) => {
+    if (pathname.includes('meals')) {
+      const ingredientsInStorage = inProgressRecipes.meals[id] || [];
+      return ingredientsInStorage.some((item) => item === ingredient);
+    }
+    if (pathname.includes('drinks')) {
+      const ingredientsInStorage = inProgressRecipes.drinks[id] || [];
+      return ingredientsInStorage.some((item) => item === ingredient);
+    }
+  };
 
   const finishedRecipe = () => {
     history.push('/done-recipes');
@@ -66,14 +105,14 @@ function RecipeInProgressCard(props) {
       <div className="in-progress-ingredients">
         {func(pathname, recipe).map((ingredient, index) => (
           <label
-            className={ checkedState[index] ? 'check-ingredient' : '' }
+            className={ !checkWithLocalStorage(ingredient[1]) ? 'check-ingredient' : '' }
             htmlFor={ index }
             key={ ingredient[0] }
             data-testid={ `${index}-ingredient-step` }
           >
             <input
               type="checkbox"
-              checked={ checkedState[index] }
+              checked={ !checkWithLocalStorage(ingredient[1]) }
               onChange={ () => handleOnChange(index, ingredient[1]) }
               name={ recipe[name] }
               id={ index }

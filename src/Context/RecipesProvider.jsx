@@ -35,7 +35,7 @@ export default function RecipesProvider({ children }) {
       doneDate: '',
       tags: [],
     }]);
-  const [startRecipeStorage, setStartRecipeStorage] = useStorage('inProgressRecipes', {
+  const [inProgressRecipes, setInProgressRecipes] = useStorage('inProgressRecipes', {
     drinks: {},
     meals: {},
   });
@@ -55,10 +55,10 @@ export default function RecipesProvider({ children }) {
       const { drinks: drinksData } = await fetchDrinks();
       const { meals: mealsCat } = await fetchMealsCategories();
       const { drinks: drinksCat } = await fetchDrinksCategories();
-      setMeals([...mealsData]);
-      setDrinks([...drinksData]);
-      setMealsCategories([...mealsCat]);
-      setDrinksCategories([...drinksCat]);
+      setMeals(mealsData);
+      setDrinks(drinksData);
+      setMealsCategories(mealsCat);
+      setDrinksCategories(drinksCat);
     };
     getData();
   }, []);
@@ -122,8 +122,8 @@ export default function RecipesProvider({ children }) {
     handleChange,
     setMeals,
     setDrinks,
-    startRecipeStorage,
-    setStartRecipeStorage,
+    inProgressRecipes,
+    setInProgressRecipes,
     email,
     setEmail,
     mealsToken,

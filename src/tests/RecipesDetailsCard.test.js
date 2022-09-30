@@ -1,34 +1,56 @@
-// import React from 'react';
-// import { screen, waitFor } from '@testing-library/react';
-// import userEvent from '@testing-library/user-event';
-// import renderWithRouter from './RenderWithRouter';
-// import RecipeDetailsCard from '../Components/RecipeDetailsCard';
-// import oneMeal from '../../cypress/mocks/oneMeal';
-// import App from '../App';
-// import fetch from '../../cypress/mocks/fetch';
+import React from 'react';
+import { screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import renderWithRouter from './RenderWithRouter';
+import App from '../App';
+import fetch from '../../cypress/mocks/fetch';
 
-describe('Testa 45% do componente RecipeDetailsCard', () => {
-  // afterEach(() => fetchMock.restore(testDoneRecipes));
+describe('teste da tela RecipeDetails', () => {
+  it('Verifica se o botão Start Recipe é renderizado na tela de meals', async () => {
+    const urlMeal = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=52771';
+    fetch(urlMeal);
 
-  // it.only('Verifica se o botão é rederizado na tela', async () => {
+    const { history } = renderWithRouter(<App />, '/meals/52771');
 
-  //   global.fetch = jest.fn().mockResolvedValue({
-  //     json: jest.fn().mockResolvedValue(oneMeal),
-  //   });
-  //   renderWithRouter(<App />, '/meals/52771');
+    await waitFor(() => {
+      const startButton = screen.getByTestId('start-recipe-btn');
+      userEvent.click(startButton);
+      expect(history.location.pathname).toBe('/meals/52771/in-progress');
+    });
+  });
 
-  //   const url = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=52771';
+  it('Verifica se o botão Start Recipe é renderizado na tela de drinks', async () => {
+    const urlDrink = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=13501';
+    fetch(urlDrink);
 
-  //   await waitFor(() => {
-  //     expect(fetch(url).toHaveBeenCalledTimes(0);
-  //   });
+    const { history } = renderWithRouter(<App />, '/drinks/13501');
 
-  //   expect(await screen.findByTestId('start-recipe-btn')).toHaveTextContent('Start Recipe');
-
-  //   expect(history.location.pathname).toBe('/drinks');
-  // });
-  // it('Verifica se a imagem é renderizada na tela', () => {
-  //   const img = screen.getAllByTestId('recipe-photo');
-  //   expect(img).toBeInTheDocument();
-  // });
+    await waitFor(() => {
+      const startButton = screen.getByTestId('start-recipe-btn');
+      userEvent.click(startButton);
+      expect(history.location.pathname).toBe('/drinks/13501/in-progress');
+    });
+  });
 });
+
+it.only('Verifica os elementos na tela de Comida , imagem , texto e video', () => {
+  renderWithRouter(<App />, '/meals/52771');
+
+  const favButton = screen.getByTestId('favorite-btn');
+  const shareButton = screen.getByTestId('share-btn');
+  const imgMeals = screen.getByTestId('recipe-photo');
+  // const recipeTitleMeal = screen.getByTestId('recipe-title');
+  // const recipeCategoryMeals = screen.getByTestId('recipe-category');
+
+  expect(favButton).toBeInTheDocument();
+  expect(shareButton).toBeInTheDocument();
+  expect(imgMeals).toBeInTheDocument();
+});
+
+/* <li data-testid="0-ingredient-name-and-measure">Filo Pastry - 1 Packet</li>
+const recipeCategoryMeals = screen.getByTestId('recipe-category')
+await waitFor(() => {
+  for (let index = 0; index < RECIPES_LIMIT; index += 1) {
+    expect(screen.getByTestId(`${index}-recipe-card`)).toBeInTheDocument();
+  }
+}, { timeout: 3000 }); */

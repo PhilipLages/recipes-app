@@ -6,11 +6,11 @@ import '../styles/recipeCard.css';
 export default function RecommendedRecipes() {
   const {
     drinks,
+    meals,
     history: {
       location: {
         pathname,
       } },
-    meals,
   } = useContext(RecipesContext);
   const SIX = 6;
 

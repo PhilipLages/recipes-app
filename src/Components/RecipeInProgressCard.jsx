@@ -24,6 +24,7 @@ function RecipeInProgressCard(props) {
     history,
     inProgressRecipes,
     setInProgressRecipes,
+    setFinishedRecipeToStorage,
   } = useContext(RecipesContext);
 
   const ingredients = func(pathname, recipe).map((item) => item[1]);
@@ -89,6 +90,13 @@ function RecipeInProgressCard(props) {
   };
 
   const finishedRecipe = () => {
+    console.log(recipe);
+    if (pathname.includes('meals')) {
+      setFinishedRecipeToStorage(id, recipe);
+    }
+    if (pathname.includes('drinks')) {
+      setFinishedRecipeToStorage(id, recipe);
+    }
     history.push('/done-recipes');
   };
 

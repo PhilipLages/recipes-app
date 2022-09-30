@@ -1,27 +1,28 @@
 import copy from 'clipboard-copy';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../Components/Header';
+import RecipesContext from '../Context';
 import shareIcon from '../images/shareIcon.svg';
-import useStorage from '../Hooks';
 
 export default function DoneRecipes() {
-  const [doneRecipes] = useStorage('doneRecipes', []);
   const [copyText, setCopyText] = useState(false);
-  const [recipesDone, setRecipeDones] = useState(doneRecipes);
+  const { doneRecipes } = useContext(RecipesContext);
+  const [filterRecipesDone, setFilterRecipeDones] = useState(doneRecipes);
+  console.log(doneRecipes);
 
   const handleMealsFilter = () => {
-    const filterMeals = recipesDone.filter((item) => item.type === 'meal');
-    setRecipeDones(filterMeals);
+    const filterMeals = doneRecipes.filter((item) => item.type === 'meal');
+    setFilterRecipeDones(filterMeals);
   };
 
   const handleDrinksFilter = () => {
-    const filterDrinks = recipesDone.filter((item) => item.type === 'drink');
-    setRecipeDones(filterDrinks);
+    const filterDrinks = doneRecipes.filter((item) => item.type === 'drink');
+    setFilterRecipeDones(filterDrinks);
   };
 
   const handleAllFilter = () => {
-    setRecipeDones(doneRecipes);
+    setFilterRecipeDones(doneRecipes);
   };
 
   return (
@@ -52,8 +53,8 @@ export default function DoneRecipes() {
 
       </button>
       {
-        recipesDone.map((item, index) => (
-          <div key={ index }>
+        filterRecipesDone.map((item, index) => (
+          <div key={ index } className="recipe-details-card">
             <Link
               to={ item.type === 'meal'
                 ? `/meals/${item.id}` : `/drinks/${item.id}` }
@@ -63,8 +64,14 @@ export default function DoneRecipes() {
                 data-testid={ `${index}-horizontal-image` }
                 alt=""
               />
+            </Link>
+            <Link
+              to={ item.type === 'meal'
+                ? `/meals/${item.id}` : `/drinks/${item.id}` }
+            >
               <p data-testid={ `${index}-horizontal-name` }>{ item.name }</p>
             </Link>
+
             <p data-testid={ `${index}-horizontal-top-text` }>
               { item.type === 'meal' ? `${item.nationality} - ${item.category}`
                 : `${item.alcoholicOrNot}` }
@@ -99,7 +106,7 @@ export default function DoneRecipes() {
 
             </button>
             {copyText && 'Link copied!'}
-            {/* {recipesDone} */}
+            {/* {filterRecipesDone} */}
           </div>
         ))
       }

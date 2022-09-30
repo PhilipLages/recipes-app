@@ -1,48 +1,96 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import copy from 'clipboard-copy';
+import { Link } from 'react-router-dom';
 import Header from '../Components/Header';
 import RecipesContext from '../Context';
-
 import { ReactComponent as ShareIcon } from '../images/shareIcon.svg';
 import { ReactComponent as BlackHeartIcon } from '../images/blackHeartIcon.svg';
 
 export default function FavoriteRecipes() {
-  const { favoriteRecipes, copiedLink, setCopiedLink } = useContext(RecipesContext);
-  console.log(favoriteRecipes);
+  const {
+    favoriteRecipes,
+    setFavoriteRecipes,
+    copiedLink,
+    setCopiedLink,
+  } = useContext(RecipesContext);
+
+  const [filteredRecipes, setFilteredRecipes] = useState(favoriteRecipes);
 
   const shareRecipe = (type, id) => {
     copy(`http://localhost:3000/${type}s/${id}`);
     setCopiedLink(true);
   };
 
+  const removeFavorite = (id) => {
+    const filteredFavorites = favoriteRecipes.filter((recipe) => recipe.id !== id);
+    setFavoriteRecipes(filteredFavorites);
+    setFilteredRecipes(filteredFavorites);
+  };
+
+  const filterMeals = () => {
+    const meals = favoriteRecipes.filter(({ type }) => type === 'meal');
+    setFilteredRecipes(meals);
+  };
+
+  const filterDrinks = () => {
+    const drinks = favoriteRecipes.filter(({ type }) => type === 'drink');
+    setFilteredRecipes(drinks);
+  };
+
+  const removeFilters = () => {
+    setFilteredRecipes(favoriteRecipes);
+  };
+
   return (
     <section>
       <Header title="Favorite Recipes" />
       <main>
-        <button type="button" data-testid="filter-by-all-btn">All</button>
-        <button type="button" data-testid="filter-by-meal-btn">Meals</button>
-        <button type="button" data-testid="filter-by-drink-btn">Drinks</button>
+        <button
+          type="button"
+          data-testid="filter-by-all-btn"
+          onClick={ () => removeFilters() }
+        >
+          All
+        </button>
+        <button
+          type="button"
+          data-testid="filter-by-meal-btn"
+          onClick={ () => filterMeals() }
+        >
+          Meals
+        </button>
+        <button
+          type="button"
+          data-testid="filter-by-drink-btn"
+          onClick={ () => filterDrinks() }
+        >
+          Drinks
+        </button>
         <section>
-          {favoriteRecipes
+          {filteredRecipes
             .map((
               { id, alcoholicOrNot, category, image, name, nationality, type },
               index,
             ) => (
               <div className="recipe-details-card" key={ id }>
-                <img
-                  src={ image }
-                  alt={ name }
-                  data-testid={ `${index}-horizontal-image` }
-                />
+                <Link to={ type === 'meal' ? `/meals/${id}` : `/drinks/${id}` }>
+                  <img
+                    src={ image }
+                    alt={ name }
+                    data-testid={ `${index}-horizontal-image` }
+                  />
+                </Link>
                 <p
                   data-testid={ `${index}-horizontal-top-text` }
                 >
                   {type === 'meal' ? `${nationality} - ${category}` : alcoholicOrNot}
                 </p>
-                <h2 data-testid={ `${index}-horizontal-name` }>{name}</h2>
+                <Link to={ type === 'meal' ? `/meals/${id}` : `/drinks/${id}` }>
+                  <h2 data-testid={ `${index}-horizontal-name` }>{name}</h2>
+                </Link>
                 <button
                   type="button"
-                  // onClick={ () => addOrRemoveFavorite() }
+                  onClick={ () => removeFavorite(id) }
                   data-testid={ `${index}-horizontal-favorite-btn` }
                   src="../images/blackHeartIcon.svg"
                 >

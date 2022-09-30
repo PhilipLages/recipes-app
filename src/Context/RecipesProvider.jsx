@@ -55,10 +55,10 @@ export default function RecipesProvider({ children }) {
       const { drinks: drinksData } = await fetchDrinks();
       const { meals: mealsCat } = await fetchMealsCategories();
       const { drinks: drinksCat } = await fetchDrinksCategories();
-      setMeals([...mealsData]);
-      setDrinks([...drinksData]);
-      setMealsCategories([...mealsCat]);
-      setDrinksCategories([...drinksCat]);
+      setMeals(mealsData);
+      setDrinks(drinksData);
+      setMealsCategories(mealsCat);
+      setDrinksCategories(drinksCat);
     };
     getData();
   }, []);

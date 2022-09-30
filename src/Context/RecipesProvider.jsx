@@ -24,17 +24,7 @@ export default function RecipesProvider({ children }) {
   const [mealsToken, setMealsToken] = useStorage('mealsToken', 1);
   const [drinksToken, setDrinksToken] = useStorage('drinksToken', 1);
   const [favoriteRecipes, setFavoriteRecipes] = useStorage('favoriteRecipes', []);
-  const [doneRecipes, setDoneRecipes] = useStorage('doneRecipes', [
-    { id: '',
-      type: '',
-      nationality: '',
-      category: '',
-      alcoholicOrNot: false,
-      name: '',
-      image: '',
-      doneDate: '',
-      tags: [],
-    }]);
+  const [doneRecipes, setDoneRecipes] = useStorage('doneRecipes', []);
   const [inProgressRecipes, setInProgressRecipes] = useStorage('inProgressRecipes', {
     drinks: {},
     meals: {},
@@ -115,6 +105,31 @@ export default function RecipesProvider({ children }) {
     setFavoriteRecipes((prevStorage) => [...prevStorage, newFavorite]);
   };
 
+  const date = new Date();
+  const setFinishedRecipeToStorage = (id, recipe) => {
+    const { location: { pathname } } = history;
+    const type = pathname.includes('meals') ? 'meal' : 'drink';
+    const alcoholicOrNot = pathname.includes('drinks') ? recipe.strAlcoholic : '';
+    const name = pathname.includes('meals') ? recipe.strMeal : recipe.strDrink;
+    const image = pathname.includes('meals') ? recipe.strMealThumb : recipe.strDrinkThumb;
+    const nationality = pathname.includes('meals') ? recipe.strArea : '';
+    const doneDate = pathname.includes('meals')
+      ? `${date.getDate()} / ${date.getMonth()} / ${date.getFullYear()}}` : '';
+
+    const newFinishedRecipe = {
+      id,
+      type,
+      nationality,
+      category: recipe.strCategory,
+      alcoholicOrNot,
+      name,
+      image,
+      doneDate,
+      tags: recipe.strTags || [],
+    };
+    setDoneRecipes((prevStorage) => [...prevStorage, newFinishedRecipe]);
+  };
+
   const context = {
     search,
     filterByCategory,
@@ -136,6 +151,7 @@ export default function RecipesProvider({ children }) {
     mealsCategories,
     drinksCategories,
     setFavoriteToStorage,
+    setFinishedRecipeToStorage,
     favoriteRecipes,
     setFavoriteRecipes,
     copiedLink,

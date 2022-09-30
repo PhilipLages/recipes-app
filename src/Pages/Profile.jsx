@@ -6,7 +6,7 @@ import useStorage from '../Hooks';
 
 export default function Profile() {
   const { setEmail, history } = useContext(RecipesContext);
-  const [localStorage] = useStorage('user', setEmail);
+  const [storageEmail] = useStorage('user', setEmail);
 
   const handleClickDoneReciples = () => {
     history.push('/done-recipes');
@@ -17,21 +17,20 @@ export default function Profile() {
   };
 
   const handleClickLogout = () => {
-    localStorage.clear({ email });
+    localStorage.clear();
     history.push('/');
   };
 
   return (
     <div>
       <Header title="Profile" />
-      <h3 data-testid="profile-email">{ localStorage.email }</h3>
+      <h3 data-testid="profile-email">{ storageEmail.email }</h3>
       <button
         type="button"
         data-testid="profile-done-btn"
         onClick={ handleClickDoneReciples }
       >
         Done Recipes
-
       </button>
       <button
         type="button"

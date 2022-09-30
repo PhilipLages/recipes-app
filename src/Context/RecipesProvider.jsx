@@ -24,7 +24,7 @@ export default function RecipesProvider({ children }) {
   const [mealsToken, setMealsToken] = useStorage('mealsToken', 1);
   const [drinksToken, setDrinksToken] = useStorage('drinksToken', 1);
   const [favoriteRecipes, setFavoriteRecipes] = useStorage('favoriteRecipes', []);
-  const [doneRecipes, setDoneRecipes] = useStorage([
+  const [doneRecipes, setDoneRecipes] = useStorage('doneRecipes', [
     { id: '',
       type: '',
       nationality: '',

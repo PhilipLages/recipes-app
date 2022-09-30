@@ -4,87 +4,57 @@ import userEvent from '@testing-library/user-event';
 import renderWithRouter from './RenderWithRouter';
 import App from '../App';
 import fetch from '../../cypress/mocks/fetch';
-import meals from '../../cypress/mocks/meals';
-import drinks from '../../cypress/mocks/drinks';
 
-describe('Testa 45% do componente RecipeDetails', () => {
-  it('Verifica se o botão é rederizado na tela de meals', async () => {
+describe('teste da tela RecipeDetails', () => {
+  it('Verifica se o botão Start Recipe é renderizado na tela de meals', async () => {
     const urlMeal = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=52771';
     fetch(urlMeal);
 
     const { history } = renderWithRouter(<App />, '/meals/52771');
 
-    const startButton = screen.getByTestId('start-recipe-btn');
-    const favButton = screen.getByTestId('favorite-btn');
-    const shareButton = screen.getByTestId('share-btn');
-
-    expect(startButton).toBeInTheDocument();
-    expect(favButton).toBeInTheDocument();
-    expect(shareButton).toBeInTheDocument();
-
-    userEvent.click(startButton);
-
     await waitFor(() => {
+      const startButton = screen.getByTestId('start-recipe-btn');
+      userEvent.click(startButton);
       expect(history.location.pathname).toBe('/meals/52771/in-progress');
     });
   });
 
-  it('Verifica se o botão é rederizado na tela de drinks', async () => {
+  it('Verifica se o botão Start Recipe é renderizado na tela de drinks', async () => {
     const urlDrink = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=13501';
     fetch(urlDrink);
+
     const { history } = renderWithRouter(<App />, '/drinks/13501');
 
-    const startButton = screen.getByTestId('start-recipe-btn');
-
-    expect(startButton).toBeInTheDocument();
-
-    userEvent.click(startButton);
-
     await waitFor(() => {
+      const startButton = screen.getByTestId('start-recipe-btn');
+      userEvent.click(startButton);
       expect(history.location.pathname).toBe('/drinks/13501/in-progress');
     });
   });
 });
 
-const promiseMock = Promise.resolve({
-  json: () => Promise.resolve(meals),
+it.only('Verifica os elementos na tela de Comida , imagem , texto e video', () => {
+  renderWithRouter(<App />, '/meals/52771');
+
+  const favButton = screen.getByTestId('favorite-btn');
+  const shareButton = screen.getByTestId('share-btn');
+  const imgMeals = screen.getByTestId('recipe-photo');
+  const recipeTitleMeal = screen.getByTestId('recipe-title');
+  const recipeCategoryMeals = screen.getByTestId('recipe-category');
+
+  expect(favButton).toBeInTheDocument();
+  expect(shareButton).toBeInTheDocument();
+  expect(imgMeals).toBeInTheDocument();
 });
 
-describe('Chamada de Api Meals', () => {
-  beforeEach(() => {
-    jest.spyOn(global, 'fetch');
-    global.fetch = jest.fn(() => promiseMock);
-  });
 
-  it('Verifica se api Meals é chamada', async () => {
-    renderWithRouter(<App />, '/meals');
+<li data-testid="0-ingredient-name-and-measure">Filo Pastry - 1 Packet</li>
 
-    const corba = await screen.findByText(/corba/i);
+const recipeCategoryMeals = screen.getByTestId('recipe-category')
 
-    userEvent.click(corba);
 
-    expect(await screen.findByRole('heading', { name: /Recipe Details/i, level: 1 }));
-    expect(await screen.findByRole('heading', { name: /Corba/i, level: 2 }));
-  });
-});
-
-const promiseMockDrink = Promise.resolve({
-  json: () => Promise.resolve(drinks),
-});
-
-describe('Chamada Api Drinks', () => {
-  beforeEach(() => {
-    jest.spyOn(global, 'fetch');
-    global.fetch = jest.fn(() => promiseMockDrink);
-  });
-  it('Verifica se api Drinks é chamada', async () => {
-    renderWithRouter(<App />, '/drinks');
-
-    const GG = await screen.findByText(/GG/i);
-
-    userEvent.click(GG);
-
-    expect(await screen.findByRole('heading', { name: /Recipe Details/i, level: 1 }));
-    expect(await screen.findByRole('heading', { name: /GG/i, level: 2 }));
-  });
-});
+await waitFor(() => {
+  for (let index = 0; index < RECIPES_LIMIT; index += 1) {
+    expect(screen.getByTestId(`${index}-recipe-card`)).toBeInTheDocument();
+  }
+}, { timeout: 3000 });

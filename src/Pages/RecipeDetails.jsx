@@ -22,6 +22,7 @@ export default function RecipeDetails({ match: { params: { id } } }) {
     setFavoriteRecipes,
     copiedLink,
     setCopiedLink,
+    doneRecipes,
     inProgressRecipes,
     history: { push, location: { pathname } },
   } = useContext(RecipesContext);
@@ -90,6 +91,8 @@ export default function RecipeDetails({ match: { params: { id } } }) {
     setCopiedLink(true);
   };
 
+  const clearButton = doneRecipes.some((recipe) => recipe.id === id);
+
   const checkFavorite = () => favoriteRecipes.some((recipe) => recipe.id === id);
   const removeFavorite = () => {
     const filteredRecipes = favoriteRecipes.filter((recipe) => recipe.id !== id);
@@ -124,27 +127,31 @@ export default function RecipeDetails({ match: { params: { id } } }) {
                 instructions="strInstructions"
                 video="strYoutube"
               />
-              {Object.keys(MEALS).find((e) => e === id)
-                ? (
-                  <button
-                    type="button"
-                    className="start-recipe-btn "
-                    data-testid="start-recipe-btn"
-                    onClick={ () => startRecipe() }
-                  >
-                    Continue Recipe
-                  </button>
-                )
-                : (
-                  <button
-                    type="button"
-                    className="start-recipe-btn "
-                    data-testid="start-recipe-btn"
-                    onClick={ () => startRecipe() }
-                  >
-                    Start Recipe
-                  </button>
-                )}
+              { !clearButton && (
+                <div>
+                  {Object.keys(MEALS).find((e) => e === id)
+                    ? (
+                      <button
+                        type="button"
+                        className="start-recipe-btn "
+                        data-testid="start-recipe-btn"
+                        onClick={ () => startRecipe() }
+                      >
+                        Continue Recipe
+                      </button>
+                    )
+                    : (
+                      <button
+                        type="button"
+                        className="start-recipe-btn "
+                        data-testid="start-recipe-btn"
+                        onClick={ () => startRecipe() }
+                      >
+                        Start Recipe
+                      </button>
+                    )}
+                </div>
+              )}
             </div>
           )}
           {pathname.includes('drinks') && (
@@ -159,27 +166,33 @@ export default function RecipeDetails({ match: { params: { id } } }) {
                 instructions="strInstructions"
                 alcoholic="strAlcoholic"
               />
-              {Object.keys(DRINKS).find((e) => e === id)
-                ? (
-                  <button
-                    type="button"
-                    className="start-recipe-btn "
-                    data-testid="start-recipe-btn"
-                    onClick={ () => startRecipe() }
-                  >
-                    Continue Recipe
-                  </button>
-                )
-                : (
-                  <button
-                    type="button"
-                    className="start-recipe-btn "
-                    data-testid="start-recipe-btn"
-                    onClick={ () => startRecipe() }
-                  >
-                    Start Recipe
-                  </button>
-                )}
+              { !clearButton && (
+                <div>
+                  { Object.keys(DRINKS).find((e) => e === id)
+                    ? (
+                      <button
+                        type="button"
+                        className="start-recipe-btn "
+                        data-testid="start-recipe-btn"
+                        onClick={ () => startRecipe() }
+                      >
+                        Continue Recipe
+                      </button>
+                    )
+                    : (
+
+                      <button
+                        type="button"
+                        className="start-recipe-btn "
+                        data-testid="start-recipe-btn"
+                        onClick={ () => startRecipe() }
+                      >
+                        Start Recipe
+                      </button>
+
+                    )}
+                </div>
+              )}
             </div>
           )}
         </section>

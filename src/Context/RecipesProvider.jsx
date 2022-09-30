@@ -125,7 +125,7 @@ export default function RecipesProvider({ children }) {
       name,
       image,
       doneDate,
-      tags: recipe.strTags || [],
+      tags: [recipe.strTags] || [],
     };
     setDoneRecipes((prevStorage) => [...prevStorage, newFinishedRecipe]);
   };

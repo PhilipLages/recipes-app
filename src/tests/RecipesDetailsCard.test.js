@@ -8,7 +8,7 @@ import meals from '../../cypress/mocks/meals';
 import drinks from '../../cypress/mocks/drinks';
 
 describe('Testa 45% do componente RecipeDetails', () => {
-  it('Verifica se o botão é rederizado na tela de meals', async () => {
+  it('Verifica se o botão start recipe é rederizado na tela de meals', async () => {
     const urlMeal = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=52771';
     fetch(urlMeal);
 
@@ -25,7 +25,7 @@ describe('Testa 45% do componente RecipeDetails', () => {
     });
   });
 
-  it('Verifica se o botão é rederizado na tela de drinks', async () => {
+  it('Verifica se o botão start recipe é rederizado na tela de drinks', async () => {
     const urlDrink = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=13501';
     fetch(urlDrink);
     const { history } = renderWithRouter(<App />, '/drinks/13501');
@@ -39,6 +39,31 @@ describe('Testa 45% do componente RecipeDetails', () => {
     await waitFor(() => {
       expect(history.location.pathname).toBe('/drinks/13501/in-progress');
     });
+  });
+
+  it('Verifica se os botões favorite e share são rederizado na tela de meals', async () => {
+    const urlMeal = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=52771';
+    fetch(urlMeal);
+
+    renderWithRouter(<App />, '/meals/52771');
+
+    const favButton = await screen.findByTestId('favorite-btn');
+    const shareButton = await screen.findByTestId('share-btn');
+
+    expect(favButton).toBeInTheDocument();
+    expect(shareButton).toBeInTheDocument();
+  });
+
+  it('Verifica se os botões favorite e share são rederizado na tela de drinks', async () => {
+    const urlDrink = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=13501';
+    fetch(urlDrink);
+
+    renderWithRouter(<App />, '/drinks/13501');
+    const favButton = await screen.findByTestId('favorite-btn');
+    const shareButton = await screen.findByTestId('share-btn');
+
+    expect(favButton).toBeInTheDocument();
+    expect(shareButton).toBeInTheDocument();
   });
 });
 

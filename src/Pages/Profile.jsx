@@ -19,7 +19,6 @@ export default function Profile() {
   const handleClickLogout = () => {
     localStorage.clear();
     history.push('/');
-    localStorage.clear({ email });
   };
 
   return (

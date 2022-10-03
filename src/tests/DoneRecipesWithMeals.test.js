@@ -53,10 +53,16 @@ describe('Testa o componente Done Recipes Com Meals', () => {
   it('testa do botão Share', () => {
     renderWithRouter(<App />, DONE_RECIPES);
 
+    Object.assign(navigator, {
+      clipboard: {
+        writeText: () => {},
+      },
+    });
+
     const shareButton = screen.getByTestId('0-horizontal-share-btn');
     expect(screen.getByTestId(IMG_LINK)).toBeInTheDocument();
 
     expect(shareButton).toBeInTheDocument();
-    // userEvent.click(shareButton);
+    userEvent.click(shareButton);
   });
 });

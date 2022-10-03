@@ -9,7 +9,6 @@ export default function DoneRecipes() {
   const [copyText, setCopyText] = useState(false);
   const { doneRecipes } = useContext(RecipesContext);
   const [filterRecipesDone, setFilterRecipeDones] = useState(doneRecipes);
-  console.log(doneRecipes);
 
   const handleMealsFilter = () => {
     const filterMeals = doneRecipes.filter((item) => item.type === 'meal');
@@ -106,7 +105,6 @@ export default function DoneRecipes() {
 
             </button>
             {copyText && 'Link copied!'}
-            {/* {filterRecipesDone} */}
           </div>
         ))
       }

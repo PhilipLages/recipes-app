@@ -1,5 +1,5 @@
 import React from 'react';
-import { screen } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './RenderWithRouter';
 import App from '../App';
@@ -21,13 +21,21 @@ describe('Testa o componente Profile', () => {
     userEvent.click(doneButton);
     expect(history.location.pathname).toBe('/done-recipes');
   });
-  it('Verifica se o email aparece na tela', () => {
-    renderWithRouter(<App />, '/profile');
+  it('Verifica se o email aparece na tela', async () => {
+    localStorage.setItem('user', JSON.stringify({
+      email: 'tryber@teste.com',
+    }));
+
+    const { history } = renderWithRouter(<App />, '/profile');
 
     expect(screen.getByTestId('profile-email')).toBeInTheDocument();
 
     const logoutButton = screen.getByTestId('profile-logout-btn');
     expect(logoutButton).toBeInTheDocument();
-    // userEvent.click(logoutButton);
+    userEvent.click(logoutButton);
+
+    await waitFor(() => {
+      expect(history.location.pathname).toBe('/');
+    });
   });
 });

@@ -29,14 +29,13 @@ Object.defineProperty(window, 'localStorage', {
   value: localStorageMock,
 });
 
+const finalizar = 'finish-recipe-btn';
+const favorite = 'favorite-btn';
+const MEALS_API = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=52977';
+const MEALS_ROUTE = '/meals/52977/in-progress';
+const DRINKS_API = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=15997';
+const DRINKS_ROUTE = '/drinks/15997/in-progress';
 describe('Testes recipeInProgress', () => {
-  const finalizar = 'finish-recipe-btn';
-  const favorite = 'favorite-btn';
-  const MEALS_API = 'https://www.themealdb.com/api/json/v1/1/lookup.php?i=52977';
-  const MEALS_ROUTE = '/meals/52977/in-progress';
-  const DRINKS_API = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=15997';
-  const DRINKS_ROUTE = '/drinks/15997/in-progress';
-
   it('Verifica se o botão de favoritar está na página (meals)', async () => {
     const urlMeal = MEALS_API;
     fetch(urlMeal);
@@ -98,5 +97,41 @@ describe('Testes recipeInProgress', () => {
     const favoriteBtn = screen.getByTestId(favorite);
     userEvent.click(favoriteBtn);
     expect(spy).toHaveBeenCalled();
+  });
+  it('Verifica se o botão share copia o link corretamente (meals)', () => {
+    Object.assign(navigator, {
+      clipboard: {
+        writeText: () => {},
+      },
+    });
+    const urlMeal = MEALS_API;
+    fetch(urlMeal);
+
+    renderWithRouter(<App />, MEALS_ROUTE);
+
+    const shareButton = screen.getByTestId('share-btn');
+
+    userEvent.click(shareButton);
+
+    const copiedMessage = screen.getAllByText(/link copied/i, { selector: 'p' });
+    expect(copiedMessage).toHaveLength(1);
+  });
+  it('Verifica se o botão share copia o link corretamente (drinks)', () => {
+    Object.assign(navigator, {
+      clipboard: {
+        writeText: () => {},
+      },
+    });
+    const urlMeal = DRINKS_API;
+    fetch(urlMeal);
+
+    renderWithRouter(<App />, DRINKS_ROUTE);
+
+    const shareButton = screen.getByTestId('share-btn');
+
+    userEvent.click(shareButton);
+
+    const copiedMessage = screen.getAllByText(/link copied/i, { selector: 'p' });
+    expect(copiedMessage).toHaveLength(1);
   });
 });

@@ -180,7 +180,6 @@ export default function RecipeDetails({ match: { params: { id } } }) {
                       </button>
                     )
                     : (
-
                       <button
                         type="button"
                         className="start-recipe-btn "
@@ -189,7 +188,6 @@ export default function RecipeDetails({ match: { params: { id } } }) {
                       >
                         Start Recipe
                       </button>
-
                     )}
                 </div>
               )}

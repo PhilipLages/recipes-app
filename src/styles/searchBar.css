@@ -1,0 +1,28 @@
+.search-bar-container {
+
+  --first-blue: #182f41;
+
+  --almost-black: #0d1820;
+
+  --orange: #d96831;
+}
+
+@media only screen and ( max-width : 640px ) {
+
+  .search-bar-container {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+
+  .search-radios {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .search-bar-container button {
+    background-color: var(--orange);
+    margin-top: 10px;
+  }
+}

@@ -3,7 +3,9 @@ import { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../Components/Header';
 import RecipesContext from '../Context';
-import shareIcon from '../images/shareIcon.svg';
+import shareIcon, { ReactComponent as ShareIcon } from '../images/shareIcon.svg';
+
+import '../styles/favoritesPage.css';
 
 export default function DoneRecipes() {
   const [copyText, setCopyText] = useState(false);
@@ -27,33 +29,38 @@ export default function DoneRecipes() {
   return (
     <div>
       <Header title="Done Recipes" />
-      <button
-        type="button"
-        data-testid="filter-by-all-btn"
-        onClick={ handleAllFilter }
-      >
-        All
+      <div className="favorite-buttons">
+        <button
+          type="button"
+          className="btn"
+          data-testid="filter-by-all-btn"
+          onClick={ handleAllFilter }
+        >
+          All
 
-      </button>
-      <button
-        type="button"
-        data-testid="filter-by-meal-btn"
-        onClick={ handleMealsFilter }
-      >
-        Meals
+        </button>
+        <button
+          type="button"
+          className="btn"
+          data-testid="filter-by-meal-btn"
+          onClick={ handleMealsFilter }
+        >
+          Meals
 
-      </button>
-      <button
-        type="button"
-        data-testid="filter-by-drink-btn"
-        onClick={ handleDrinksFilter }
-      >
-        Drinks
+        </button>
+        <button
+          type="button"
+          className="btn"
+          data-testid="filter-by-drink-btn"
+          onClick={ handleDrinksFilter }
+        >
+          Drinks
 
-      </button>
+        </button>
+      </div>
       {
         filterRecipesDone.map((item, index) => (
-          <div key={ index } className="recipe-details-card">
+          <div key={ index } className="recipe-details-card favorite">
             <Link
               to={ item.type === 'meal'
                 ? `/meals/${item.id}` : `/drinks/${item.id}` }
@@ -92,6 +99,7 @@ export default function DoneRecipes() {
             <button
               type="button"
               data-testid={ `${index}-horizontal-share-btn` }
+              className="btn"
               src={ shareIcon }
               onClick={ () => {
                 copy(`http://localhost:3000/meals/${item.id}`);
@@ -101,8 +109,7 @@ export default function DoneRecipes() {
                 }));
               } }
             >
-              Share
-
+              <ShareIcon />
             </button>
             {copyText && 'Link copied!'}
           </div>

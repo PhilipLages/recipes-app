@@ -1,10 +1,18 @@
 footer {
-  background-color: blue;
+  align-items: center;
+  background: linear-gradient(to bottom, #182f41, #0d1820);
   bottom: 0;
   color: white;
-  height: 100px;
+  display: flex;
+  height: 80px;
+  justify-content: center;
   line-height: 100px;
   position: fixed;
   text-align: center;
   width: 100%;
+}
+
+footer img {
+  filter: invert();
+  gap: 5px;
 }

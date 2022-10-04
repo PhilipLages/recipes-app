@@ -20,7 +20,6 @@ function Footer() {
           alt="drinkIcon"
         />
       </Link>
-
     </footer>
   );
 }

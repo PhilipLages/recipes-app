@@ -1,0 +1,40 @@
+.head-container {
+
+  --first-blue: #182f41;
+
+  --almost-black: #0d1820;
+
+  --orange: #d96831;
+}
+
+@media only screen and ( max-width : 640px ) {
+
+  .header-container {
+    align-items: center;
+    background-color: var(--first-blue);
+    display: flex;
+    flex-wrap: wrap;
+    font-family: Peralta , cursive;
+    height: fit-content;
+    justify-content: space-around;
+  }
+
+  .header-links {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+  }
+
+  .header-links h1 {
+    color: var(--orange);
+  }
+
+  .header-links button {
+    background-color: var(--first-blue);
+    border: none;
+  }
+
+  .search-vector, .profile-icon {
+    filter: invert();
+  }
+}

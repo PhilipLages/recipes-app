@@ -7,6 +7,7 @@ import { ReactComponent as WhiteHeartIcon } from '../images/whiteHeartIcon.svg';
 import { ReactComponent as BlackHeartIcon } from '../images/blackHeartIcon.svg';
 import { fetchDrinkById, fetchMealById } from '../Services';
 import RecipeInProgressCard from '../Components/RecipeInProgressCard';
+import '../styles/recipeCard.css';
 
 function RecipeInProgress({ match: { params: { id } } }) {
   const [food, setFood] = useState([]);
@@ -106,7 +107,9 @@ function RecipeInProgress({ match: { params: { id } } }) {
 
   return (
     <section>
-      <h1>Receita em andamento</h1>
+      <div className="title-card">
+        <h1>Receita em andamento</h1>
+      </div>
       {!loading && (
         <section>
           {pathname.includes('meals') && (
@@ -136,22 +139,26 @@ function RecipeInProgress({ match: { params: { id } } }) {
           )}
         </section>
       )}
-      <button
-        type="button"
-        onClick={ () => addOrRemoveFavorite() }
-        data-testid="favorite-btn"
-        src={ `../images/${checkFavorite() ? 'blackHeartIcon' : 'whiteHeartIcon'}` }
-      >
-        {checkFavorite() ? <BlackHeartIcon /> : <WhiteHeartIcon />}
-      </button>
-      <button
-        type="button"
-        onClick={ () => shareRecipe() }
-        data-testid="share-btn"
-      >
-        <ShareIcon />
-      </button>
-      {copiedLink && (<p>Link copied!</p>) }
+      <div className="buttons">
+        <button
+          className="favorite-btn btn"
+          type="button"
+          onClick={ () => addOrRemoveFavorite() }
+          data-testid="favorite-btn"
+          src={ `../images/${checkFavorite() ? 'blackHeartIcon' : 'whiteHeartIcon'}` }
+        >
+          {checkFavorite() ? <BlackHeartIcon /> : <WhiteHeartIcon />}
+        </button>
+        <button
+          type="button"
+          className="favorite-btn btn"
+          onClick={ () => shareRecipe() }
+          data-testid="share-btn"
+        >
+          <ShareIcon />
+        </button>
+        {copiedLink && (<p>Link copied!</p>) }
+      </div>
     </section>
   );
 }

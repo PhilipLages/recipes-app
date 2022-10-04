@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import '../styles/recipeInProgress.css';
+import '../styles/recipeDetailsCard.css';
 import RecipesContext from '../Context';
 
 function RecipeInProgressCard(props) {
@@ -101,44 +102,57 @@ function RecipeInProgressCard(props) {
 
   return (
     <section className="recipe-details-card">
-      <img src={ recipe[thumb] } alt={ recipe[name] } data-testid="recipe-photo" />
-      <h2 data-testid="recipe-title">{recipe[name]}</h2>
-      <p data-testid="recipe-category">
-        {pathname.includes('drinks')
-          ? `${recipe[category]} ${recipe[alcoholic]}`
-          : recipe[category]}
-      </p>
-      <h3>Ingredients</h3>
-      <div className="in-progress-ingredients">
-        {func(pathname, recipe).map((ingredient, index) => (
-          <label
-            className={ !checkWithLocalStorage(ingredient[1]) ? 'check-ingredient' : '' }
-            htmlFor={ index }
-            key={ ingredient[0] }
-            data-testid={ `${index}-ingredient-step` }
-          >
-            <input
-              type="checkbox"
-              checked={ !checkWithLocalStorage(ingredient[1]) }
-              onChange={ () => handleOnChange(index, ingredient[1]) }
-              name={ recipe[name] }
-              id={ index }
-            />
-            {`${ingredient[1]} - ${ingredient[2]}`}
-          </label>
-        ))}
+      <div className="recipe-detail">
+        <img src={ recipe[thumb] } alt={ recipe[name] } data-testid="recipe-photo" />
+        <h2 data-testid="recipe-title">{recipe[name]}</h2>
+        <p data-testid="recipe-category">
+          {pathname.includes('drinks')
+            ? `${recipe[category]} ${recipe[alcoholic]}`
+            : recipe[category]}
+        </p>
       </div>
-      <h3>Instructions</h3>
-      <p data-testid="instructions">{recipe[instructions]}</p>
-      <button
-        type="button"
-        data-testid="finish-recipe-btn"
-        disabled={ callCheckFinish }
-        onClick={ finishedRecipe }
-      >
-        Finalizar
+      <div className="ingredients-card">
+        <h3>Ingredients</h3>
+        <div className="in-progress-ingredients recipe-card-ingredients">
+          {func(pathname, recipe).map((ingredient, index) => (
+            <label
+              className={ !checkWithLocalStorage(ingredient[1])
+                ? 'check-ingredient'
+                : '' }
+              htmlFor={ index }
+              key={ ingredient[0] }
+              data-testid={ `${index}-ingredient-step` }
+            >
+              <input
+                type="checkbox"
+                checked={ !checkWithLocalStorage(ingredient[1]) }
+                onChange={ () => handleOnChange(index, ingredient[1]) }
+                name={ recipe[name] }
+                id={ index }
+              />
+              {`${ingredient[1]} - ${ingredient[2]}`}
+            </label>
+          ))}
 
-      </button>
+        </div>
+      </div>
+      <div className="ingredients-card">
+        <h3>Instructions</h3>
+      </div>
+      <div className="recipe-card-ingredients">
+        <p data-testid="instructions">{recipe[instructions]}</p>
+      </div>
+      <div className="end-container">
+        <button
+          className="end-btn btn"
+          type="button"
+          data-testid="finish-recipe-btn"
+          disabled={ callCheckFinish }
+          onClick={ finishedRecipe }
+        >
+          Finalizar
+        </button>
+      </div>
     </section>
   );
 }

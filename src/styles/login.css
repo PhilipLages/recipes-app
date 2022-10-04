@@ -1,0 +1,43 @@
+body {
+
+  --first-blue: #182f41;
+
+  --almost-black: #0d1820;
+
+  --orange: #d96831;
+}
+
+
+@media only screen and ( max-width : 640px ) {
+
+  .login-container {
+    align-items: center;
+    background: linear-gradient(to bottom, #182f41, #0d1820);
+    display: flex;
+    flex-direction: column;
+    font-family: Peralta , cursive;
+    height: 100vh;
+    justify-content: center;
+  }
+
+  .login-container h1 {
+    color: white;
+  }
+
+  .login-container span {
+    color: var(--orange);
+  }
+
+  .login-form {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .login-form button {
+    background-color: var(--orange);
+    width: 100%;
+  }
+
+}

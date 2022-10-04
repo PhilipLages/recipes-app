@@ -1,16 +1,17 @@
 import React, { useContext } from 'react';
 import RecipesContext from '../Context';
 import Category from './Category';
+import '../styles/categories.css';
 
 export default function Categories() {
   const { history: { location: { pathname } }, mealsCategories,
-    drinksCategories, allCategories } = useContext(RecipesContext);
+    drinksCategories } = useContext(RecipesContext);
   const FIVE = 5;
   return (
     <section>
       {pathname.includes('drinks')
       && (
-        <div>
+        <div className="categories-container">
           {drinksCategories.slice(0, FIVE).map(({ strCategory }) => (
             <Category
               key={ strCategory }
@@ -18,35 +19,37 @@ export default function Categories() {
               data-testid={ `${strCategory}-category-filter` }
             />
           ))}
-          <button
+          {/* <button
             type="button"
             data-testid="All-category-filter"
             onClick={ allCategories }
           >
             All
 
-          </button>
+          </button> */}
         </div>
       )}
       { pathname.includes('meals')
 
       && (
-        <div>
-          {mealsCategories.slice(0, FIVE).map(({ strCategory }) => (
-            <Category
-              data-testid={ `${strCategory}-category-filter` }
-              key={ strCategory }
-              category={ strCategory }
-            />
-          ))}
-          <button
+        <div className="container">
+          <div className="categories-container">
+            {mealsCategories.slice(0, FIVE).map(({ strCategory }) => (
+              <Category
+                data-testid={ `${strCategory}-category-filter` }
+                key={ strCategory }
+                category={ strCategory }
+              />
+            ))}
+          </div>
+          {/* <button
+            className="btn btn-sm category-btn"
             type="button"
             data-testid="All-category-filter"
             onClick={ allCategories }
           >
             All
-
-          </button>
+          </button> */}
         </div>
       )}
     </section>

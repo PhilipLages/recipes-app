@@ -3,7 +3,7 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './RenderWithRouter';
 import App from '../App';
-import favoriteRecipesMock from './localStorageMock';
+import favoriteRecipesMock from './Mocks/localStorageMock';
 
 describe('Tests for the Favorite Recipes page', () => {
   beforeEach(() => {

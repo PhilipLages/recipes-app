@@ -3,7 +3,7 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouter from './RenderWithRouter';
 import App from '../App';
-import { dataMeals } from './localStorageMock';
+import { dataMeals } from './Mocks/localStorageMock';
 
 const DONE_RECIPES = '/done-recipes';
 const IMG_LINK = '0-horizontal-image';

@@ -77,11 +77,9 @@ export default function RecipesProvider({ children }) {
     if (history.location.pathname === '/meals') {
       const { meals: mealsData } = await fetchMeals();
       setMeals(mealsData);
-      console.log(await fetchMeals());
     } else if (history.location.pathname === '/drinks') {
       const { drinks: drinksData } = await fetchDrinks();
       setDrinks(drinksData);
-      console.log(await fetchMeals(drinksData));
     }
   };
 

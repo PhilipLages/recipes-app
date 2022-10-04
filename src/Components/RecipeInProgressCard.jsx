@@ -79,18 +79,17 @@ function RecipeInProgressCard(props) {
   const callCheckFinish = checkFinish();
 
   const checkWithLocalStorage = (ingredient) => {
-    if (pathname.includes('meals')) {
-      const ingredientsInStorage = inProgressRecipes.meals[id] || [];
-      return ingredientsInStorage.some((item) => item === ingredient);
-    }
     if (pathname.includes('drinks')) {
       const ingredientsInStorage = inProgressRecipes.drinks[id] || [];
+      return ingredientsInStorage.some((item) => item === ingredient);
+    }
+    if (pathname.includes('meals')) {
+      const ingredientsInStorage = inProgressRecipes.meals[id] || [];
       return ingredientsInStorage.some((item) => item === ingredient);
     }
   };
 
   const finishedRecipe = () => {
-    console.log(recipe);
     if (pathname.includes('meals')) {
       setFinishedRecipeToStorage(id, recipe);
     }

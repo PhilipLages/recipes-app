@@ -80,3 +80,29 @@ export const dataDrinks = [
     ],
   },
 ];
+
+export const inProgressMeal = {
+  meals: {
+    52771: ['penne rigate', 'olive oil', 'garlic', 'chopped tomatoes', 'red chile flakes', 'italian seasoning', 'basil', 'Parmigiano-Reggiano'],
+  },
+  drinks: {},
+};
+
+// eslint-disable-next-line func-names
+export const localStorageMock = (function () {
+  let store = {};
+  return {
+    getItem(key) {
+      return store[key] || null;
+    },
+    setItem(key, value) {
+      store[key] = value.toString();
+    },
+    removeItem(key) {
+      delete store[key];
+    },
+    clear() {
+      store = {};
+    },
+  };
+}());

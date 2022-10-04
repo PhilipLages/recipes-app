@@ -27,7 +27,7 @@ describe('Testa a página Bebidas', () => {
   //       expect(screen.getByTestId(`${index}-recipe-card`)).toBeInTheDocument();
   //     }
   //   }, { timeout: 3000 });
-  // });
+  // }); oi
 
   it('Se ao escolher o filtro "ingredient" o fetch é feito', async () => {
     const urlIngredientCocktails = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';

@@ -27,7 +27,8 @@ export default function Login({ history: { push } }) {
 
   const isValid = checkEmail() && checkPassword();
 
-  const handleSubmit = () => {
+  const handleSubmit = (e) => {
+    e.preventDefault();
     setEmail({ email: login.email });
     push('/meals');
   };

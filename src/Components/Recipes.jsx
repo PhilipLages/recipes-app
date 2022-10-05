@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import RecipesContext from '../Context';
 import '../styles/recipeCard.css';
+import '../styles/mainScreen.css';
 import Categories from './Categories';
 
 export default function Recipes() {
@@ -18,7 +19,7 @@ export default function Recipes() {
   return (
     <section>
       <Categories />
-      <div>
+      <div className="recipes-container">
         {pathname.includes('meals')
             && (
               <div>
@@ -45,7 +46,7 @@ export default function Recipes() {
             )}
         {pathname.includes('drinks')
           && (
-            <div>
+            <div className="recipes-container">
               { drinks?.slice(0, DOZE).map((rec, index) => (
                 <Link
                   to={ `/drinks/${rec.idDrink}` }

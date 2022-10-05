@@ -112,7 +112,9 @@ export default function RecipeDetails({ match: { params: { id } } }) {
 
   return (
     <section>
-      <h1>Recipe Details</h1>
+      <div className="title-card">
+        <h1>Recipe Details</h1>
+      </div>
       {!loading && (
         <section>
           {pathname.includes('meals') && (
@@ -133,7 +135,7 @@ export default function RecipeDetails({ match: { params: { id } } }) {
                     ? (
                       <button
                         type="button"
-                        className="start-recipe-btn "
+                        className="start-recipe-btn btn"
                         data-testid="start-recipe-btn"
                         onClick={ () => startRecipe() }
                       >
@@ -196,22 +198,26 @@ export default function RecipeDetails({ match: { params: { id } } }) {
         </section>
       )}
 
-      <button
-        type="button"
-        onClick={ () => addOrRemoveFavorite() }
-        data-testid="favorite-btn"
-        src={ `../images/${checkFavorite() ? 'blackHeartIcon' : 'whiteHeartIcon'}` }
-      >
-        {checkFavorite() ? <BlackHeartIcon /> : <WhiteHeartIcon />}
-      </button>
-      <button
-        type="button"
-        onClick={ () => shareRecipe() }
-        data-testid="share-btn"
-      >
-        <ShareIcon />
-      </button>
-      {copiedLink && (<p>Link copied!</p>) }
+      <div className="buttons">
+        <button
+          type="button"
+          onClick={ () => addOrRemoveFavorite() }
+          data-testid="favorite-btn"
+          src={ `../images/${checkFavorite() ? 'blackHeartIcon' : 'whiteHeartIcon'}` }
+        >
+          {checkFavorite() ? <BlackHeartIcon /> : <WhiteHeartIcon />}
+        </button>
+        <button
+          type="button"
+          onClick={ () => shareRecipe() }
+          data-testid="share-btn"
+        >
+          <ShareIcon />
+        </button>
+        {copiedLink && (<p>Link copied!</p>) }
+
+      </div>
+
       <section>
         <RecommendedRecipes />
       </section>

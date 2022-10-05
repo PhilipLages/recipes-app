@@ -1,0 +1,40 @@
+body {
+
+  --first-blue: #182f41;
+
+  --almost-black: #0d1820;
+
+  --orange: #d96831;
+}
+
+@media only screen and ( max-width : 640px ) {
+
+  .favorite-buttons {
+    display: flex;
+    justify-content: center;
+  }
+
+  .favorite-buttons button {
+    background-color: var(--first-blue);
+    color: var(--orange);
+    margin: 5px;
+  }
+
+  .favorite {
+    align-items: center;
+    border: solid 2px lightgray;
+    border-radius: 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 5px;
+    padding: 15px;
+    text-decoration: none;
+    width: fit-content;
+  }
+
+  .favorite a {
+    color: var(--first-blue);
+    text-decoration: none;
+  }
+}

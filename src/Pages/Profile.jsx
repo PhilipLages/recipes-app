@@ -3,6 +3,7 @@ import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 import RecipesContext from '../Context';
 import useStorage from '../Hooks';
+import '../styles/favoritesPage.css';
 
 export default function Profile() {
   const { setEmail, history } = useContext(RecipesContext);
@@ -25,29 +26,34 @@ export default function Profile() {
     <div>
       <Header title="Profile" />
       <h3 data-testid="profile-email">{ storageEmail.email }</h3>
-      <button
-        type="button"
-        data-testid="profile-done-btn"
-        onClick={ handleClickDoneReciples }
-      >
-        Done Recipes
-      </button>
-      <button
-        type="button"
-        data-testid="profile-favorite-btn"
-        onClick={ handleClickFavorite }
-      >
-        Favorite Recipes
+      <div className="favorite-buttons">
+        <button
+          type="button"
+          className="btn"
+          data-testid="profile-done-btn"
+          onClick={ handleClickDoneReciples }
+        >
+          Done Recipes
+        </button>
+        <button
+          type="button"
+          className="btn"
+          data-testid="profile-favorite-btn"
+          onClick={ handleClickFavorite }
+        >
+          Favorite Recipes
 
-      </button>
-      <button
-        type="button"
-        data-testid="profile-logout-btn"
-        onClick={ handleClickLogout }
-      >
-        Logout
+        </button>
+        <button
+          type="button"
+          className="btn"
+          data-testid="profile-logout-btn"
+          onClick={ handleClickLogout }
+        >
+          Logout
 
-      </button>
+        </button>
+      </div>
       <Footer />
     </div>
   );

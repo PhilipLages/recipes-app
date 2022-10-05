@@ -1,3 +1,12 @@
+body {
+
+  --first-blue: #182f41;
+
+  --almost-black: #0d1820;
+
+  --orange: #d96831;
+}
+
 .in-progress-ingredients {
   display: flex;
   flex-direction: column;
@@ -6,4 +15,14 @@
 
 .check-ingredient {
   text-decoration: line-through;
+}
+
+.end-container {
+  display: flex;
+  justify-content: center;
+}
+
+.end-btn {
+  background-color: var(--first-blue);
+  color: var(--orange);
 }

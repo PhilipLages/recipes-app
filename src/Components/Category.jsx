@@ -1,20 +1,27 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import RecipesContext from '../Context';
+import '../styles/categories.css';
 
 export default function Category({ category }) {
   const { filterByCategory } = useContext(RecipesContext);
   return (
-    <label htmlFor={ category }>
+    <div className="form-check form-switch category">
       <input
+        className="form-check-input"
         type="checkbox"
         id={ category }
         data-testid={ `${category}-category-filter` }
         value={ category }
         onClick={ filterByCategory }
       />
-      {category}
-    </label>
+      <label
+        className="form-check-label"
+        htmlFor={ category }
+      >
+        {category}
+      </label>
+    </div>
   );
 }
 

@@ -1,14 +1,83 @@
-.recipe-card {
-  align-items: center;
-  border: solid 2px black;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin: 5px;
-  padding: 10px;
-  width: fit-content;
+body {
+
+  --first-blue: #182f41;
+
+  --almost-black: #0d1820;
+
+  --orange: #d96831;
 }
 
-.recipe-card img {
-  width: 200px;
+@media only screen and ( max-width : 640px ) {
+
+  .recipe-card {
+    align-items: center;
+    border: solid 2px lightgray;
+    border-radius: 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 5px;
+    padding: 15px;
+    text-decoration: none;
+    width: fit-content;
+  }
+
+  .recipe-card h3 {
+    color: var(--first-blue);
+    margin-top: 5px;
+  }
+
+  .recipe-card img {
+    width: 95%;
+  }
+
+  .title-card {
+    align-items: center;
+    background-color: var(--first-blue);
+    color: var(--orange);
+    display: flex;
+    font-family: Peralta , cursive;
+    height: 45px;
+    justify-content: center;
+  }
+
+  .recipe-card-ingredients {
+    align-items: flex-start;
+    border: solid 2px lightgray;
+    border-radius: 2%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 5px;
+    padding: 15px;
+    text-decoration: none;
+    width: 97%;
+  }
+
+  .recipe-card-ingredients li {
+    margin-left: 5px;
+  }
+
+  .ingredients-card h3 {
+    margin-left: 10px;
+  }
+
+  .video {
+    display: flex;
+    justify-content: center;
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+  }
+
+  .buttons button {
+    background-color: white;
+    border: none;
+    margin: 5px;
+  }
+
 }
+

@@ -5,6 +5,7 @@ import Header from '../Components/Header';
 import RecipesContext from '../Context';
 import { ReactComponent as ShareIcon } from '../images/shareIcon.svg';
 import { ReactComponent as BlackHeartIcon } from '../images/blackHeartIcon.svg';
+import '../styles/favoritesPage.css';
 
 export default function FavoriteRecipes() {
   const {
@@ -45,34 +46,39 @@ export default function FavoriteRecipes() {
     <section>
       <Header title="Favorite Recipes" />
       <main>
-        <button
-          type="button"
-          data-testid="filter-by-all-btn"
-          onClick={ () => removeFilters() }
-        >
-          All
-        </button>
-        <button
-          type="button"
-          data-testid="filter-by-meal-btn"
-          onClick={ () => filterMeals() }
-        >
-          Meals
-        </button>
-        <button
-          type="button"
-          data-testid="filter-by-drink-btn"
-          onClick={ () => filterDrinks() }
-        >
-          Drinks
-        </button>
+        <div className="favorite-buttons">
+          <button
+            type="button"
+            className="btn"
+            data-testid="filter-by-all-btn"
+            onClick={ () => removeFilters() }
+          >
+            All
+          </button>
+          <button
+            type="button"
+            className="btn"
+            data-testid="filter-by-meal-btn"
+            onClick={ () => filterMeals() }
+          >
+            Meals
+          </button>
+          <button
+            type="button"
+            className="btn"
+            data-testid="filter-by-drink-btn"
+            onClick={ () => filterDrinks() }
+          >
+            Drinks
+          </button>
+        </div>
         <section>
           {filteredRecipes
             .map((
               { id, alcoholicOrNot, category, image, name, nationality, type },
               index,
             ) => (
-              <div className="recipe-details-card" key={ id }>
+              <div className="recipe-details-card favorite" key={ id }>
                 <Link to={ type === 'meal' ? `/meals/${id}` : `/drinks/${id}` }>
                   <img
                     src={ image }
@@ -88,23 +94,27 @@ export default function FavoriteRecipes() {
                 <Link to={ type === 'meal' ? `/meals/${id}` : `/drinks/${id}` }>
                   <h2 data-testid={ `${index}-horizontal-name` }>{name}</h2>
                 </Link>
-                <button
-                  type="button"
-                  onClick={ () => removeFavorite(id) }
-                  data-testid={ `${index}-horizontal-favorite-btn` }
-                  src="../images/blackHeartIcon.svg"
-                >
-                  <BlackHeartIcon />
-                </button>
-                <button
-                  type="button"
-                  onClick={ () => shareRecipe(type, id) }
-                  data-testid={ `${index}-horizontal-share-btn` }
-                  src="../images/shareIcon.svg"
-                >
-                  <ShareIcon />
-                </button>
-                {copiedLink && (<p>Link copied!</p>) }
+                <div>
+                  <button
+                    type="button"
+                    className="btn"
+                    onClick={ () => removeFavorite(id) }
+                    data-testid={ `${index}-horizontal-favorite-btn` }
+                    src="../images/blackHeartIcon.svg"
+                  >
+                    <BlackHeartIcon />
+                  </button>
+                  <button
+                    type="button"
+                    className="btn"
+                    onClick={ () => shareRecipe(type, id) }
+                    data-testid={ `${index}-horizontal-share-btn` }
+                    src="../images/shareIcon.svg"
+                  >
+                    <ShareIcon />
+                  </button>
+                  {copiedLink && (<p>Link copied!</p>) }
+                </div>
               </div>
             ))}
         </section>
